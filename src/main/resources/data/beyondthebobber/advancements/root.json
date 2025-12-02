@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:fishing_rod"
+    },
+    "title": {
+      "text": "The Adventure Begins"
+    },
+    "description": {
+      "text": "Catch your first fish to begin your journey Beyond the Bobber."
+    },
+    "background": "minecraft:textures/block/water_flow.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_fish": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "damage": {
+          "type": {
+            "direct_entity": {
+              "type": "minecraft:fishing_hook"
+            }
+          }
+        }
+      }
+    }
+  }
+}

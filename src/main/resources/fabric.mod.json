@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "beyondthebobber",
+  "version": "${version}",
+  "name": "Beyond the Bobber",
+  "description": "Beyond the Bobber transforms Minecraft’s fishing system into a full-fledged adventure. No longer limited to a single rod and a handful of catches, this mod introduces depth, variety, and progression to the art of angling.",
+  "authors": ["Mosberg"],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "Copyright (c) 2025 Mosberg. All Rights Reserved.",
+  "icon": "assets/beyondthebobber/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.mosberg.BeyondtheBobber"],
+    "client": ["com.mosberg.BeyondtheBobberClient"]
+  },
+  "mixins": [
+    "beyondthebobber.mixins.json",
+    {
+      "config": "beyondthebobber.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.10",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

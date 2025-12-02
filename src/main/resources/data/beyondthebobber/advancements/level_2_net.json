@@ -1,0 +1,23 @@
+{
+  "parent": "beyondthebobber:root",
+  "display": {
+    "icon": {
+      "item": "beyondthebobber:fishing_net"
+    },
+    "title": {
+      "text": "Netting Success"
+    },
+    "description": {
+      "text": "Reach fishing level 2 to unlock the Fishing Net."
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "level_2": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

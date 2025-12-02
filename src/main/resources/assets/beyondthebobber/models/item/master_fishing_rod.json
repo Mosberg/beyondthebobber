@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld_rod",
+  "textures": {
+    "layer0": "beyondthebobber:item/master_fishing_rod"
+  }
+}

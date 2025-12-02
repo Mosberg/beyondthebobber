@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["WWW", "WSW", "WWW"],
+  "key": {
+    "W": {
+      "item": "minecraft:oak_planks"
+    },
+    "S": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "item": "beyondthebobber:fishing_trap",
+    "count": 1
+  }
+}

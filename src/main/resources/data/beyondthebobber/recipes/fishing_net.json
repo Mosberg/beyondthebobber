@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [" S ", "SNS", " S "],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "N": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "beyondthebobber:fishing_net",
+    "count": 1
+  }
+}
