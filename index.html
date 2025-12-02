@@ -1,0 +1,3383 @@
+<main>
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="entity-modeling-and-animation">
+        <a
+          href="#entity-modeling-and-animation"
+          aria-hidden="true"
+          tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Entity Modeling and Animation
+      </h1>
+      <p>
+        <em
+          >This article is part of the Minecraft Entity Introduction tutorial
+          series from the Minecraft Creator Portal and can also be found on
+          <a
+            href="https://docs.microsoft.com/en-us/minecraft/creator/documents/entitymodelingandanimation"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            >Microsoft Docs</a
+          >.</em
+        >
+      </p>
+      <p>
+        In this guide, we'll go through the basics of creating a model and
+        creating animations for Minecraft: Bedrock Edition. As an example, we'll
+        model and animate a small robot, which was started in the
+        <a
+          href="https://docs.microsoft.com/en-us/minecraft/creator/documents/IntroductionToAddEntity"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Introduction to Add Entity</a
+        >
+        article.
+      </p>
+      <p>In this tutorial you will learn the following:</p>
+      <ul>
+        <li>
+          How to create a model for an entity using
+          <a
+            href="https://blockbench.net/"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            >Blockbench</a
+          >.
+        </li>
+        <li>How to apply textures and animations to a model.</li>
+      </ul>
+      <h3 id="requirements">
+        <a href="#requirements" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Requirements
+      </h3>
+      <p>
+        It’s recommended that the following be completed before beginning this
+        tutorial.
+      </p>
+      <ul>
+        <li>
+          <a
+            href="https://docs.microsoft.com/en-us/minecraft/creator/documents/IntroductionToAddEntity"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            >Introduction to Add Entity</a
+          >
+        </li>
+      </ul>
+      <h2 id="model">
+        <a href="#model" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Model
+      </h2>
+      <p>
+        Models in Minecraft use a specific format that uses JSON to define the
+        shape. Each model uses a texture that can be assigned through render
+        controllers.
+      </p>
+      <p>
+        To create the model and texture, we're going to use
+        <a
+          href="https://blockbench.net/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Blockbench</a
+        >, a 3D modeling program that can create models for the Bedrock Edition
+        of Minecraft.
+      </p>
+      <h3 id="setting-up-the-model">
+        <a href="#setting-up-the-model" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Setting Up the Model
+      </h3>
+      <p>
+        When you first open Blockbench, you'll see a list of available model
+        formats. Select <strong>Bedrock Model</strong>. You'll see a dialog
+        about the basic settings for the project.
+      </p>
+      <p>
+        <img
+          alt="Project settings for Bedrock Edition models in Blockbench"
+          src="https://docs.microsoft.com/en-us/minecraft/creator/documents/Media/EntityModeling/blockbenchnewproject.png"
+        />
+      </p>
+      <p>
+        The important part is <strong>Mob Geometry Name</strong>. Here, we'll
+        enter a unique name for the model. The best practice is to use
+        snake_case — so only lower case letters, numbers and underscores as well
+        as dots. Spaces and other special characters aren't supported. For our
+        model, we'll just input <code>robot</code>.
+      </p>
+      <p>
+        We can leave the field for the file name empty for now as we'll later
+        define it when we export the model. The Box UV setting and the texture
+        size can also be left at default because we'll change them later. The
+        confirm button will save these settings.
+      </p>
+      <h3 id="bone-structure">
+        <a href="#bone-structure" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Bone Structure
+      </h3>
+      <p>
+        The first thing to consider when making a model is the bone structure.
+        Bones are the part of the model that can be animated, and they can be
+        arranged in an arbitrarily deep hierarchy. Each bone itself is invisible
+        but can contain cubes that will shape the model.
+      </p>
+      <p>
+        <img
+          alt="Bone listing in Blockbench"
+          src="https://docs.microsoft.com/en-us/minecraft/creator/documents/Media/EntityModeling/bonestructure.png"
+        />
+      </p>
+      <p>
+        A good practice is to use a root bone for each model and put everything
+        else inside it. This means that you'll later be able to animate the
+        entire model at once, as well as specific parts of it. Create a new
+        group in Blockbench. “Groups” and “Bones” are essentially the same in
+        this context.
+      </p>
+      <p>
+        You can right-click the group or press <strong>F2</strong> to rename it.
+        The name for a bone should be <code>snake_case</code> (so only including
+        lower case letters, numbers, and underscores). Each bone name has to be
+        unique for future reference through animations.
+      </p>
+      <p>
+        While we build up the model in the following steps, make sure the
+        structure is set up correctly. You can drag around groups to change the
+        order or drop them into other groups. This screenshot shows the correct
+        bone structure of the finished model.
+      </p>
+      <h3 id="shape">
+        <a href="#shape" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Shape
+      </h3>
+      <p>
+        You can now start to create the shape of the model. Create new cubes and
+        use the move, resize, and rotation tools to adjust it. A trick to add
+        cubes faster is to select an already positioned cube and press
+        <strong>Ctrl + D</strong> (duplicate) to get a copy.
+      </p>
+      <p>
+        <img
+          alt="Textureless shape of a robot in Blockbench"
+          src="https://docs.microsoft.com/en-us/minecraft/creator/documents/Media/EntityModeling/shape.png"
+        />
+      </p>
+      <p>
+        You can move cubes more precisely by holding either shift, control, or
+        both at the same time. Depending on the modeling style, it can make
+        sense to completely stick to the grid or only move the cubes in half or
+        quarter increments.
+      </p>
+      <p>
+        Bedrock Edition models use Box UV mapping by default. That means that
+        the texture mapping will only use full numbers and will round down to a
+        smaller number if necessary. To avoid stretched or invisible faces, make
+        sure the size of cubes sticks to full numbers.
+      </p>
+      <p>
+        If you're working on symmetrical parts like limbs, create them on the
+        right-hand side first and mirror them to the left later. You can either
+        mirror them before or after creating the texture depending on whether
+        you want the same texture on both sides.
+      </p>
+      <p>
+        When you're creating bones for moving parts of the model, always think
+        about which point the part should rotate around. Select a bone and press
+        <strong>P</strong> to get the Pivot tool. This tool allows you to move
+        the pivot point of the bone. You can also use this tool on cubes if you
+        want to rotate those around a specific point.
+      </p>
+      <h2 id="texturing">
+        <a href="#texturing" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Texturing
+      </h2>
+      <h3 id="templates">
+        <a href="#templates" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Templates
+      </h3>
+      <p>
+        Once the shape of the model is done, you can create a texture template.
+        The template is a texture that has a unique space for every cube and
+        every face of the model. You can also UV map cubes manually, but
+        creating a template does the work for you and finds the most
+        space-efficient layout. Remember that Minecraft doesn’t like
+        high-resolution images.
+      </p>
+      <p>
+        When creating a texture, enter <code>robot</code> as the texture name
+        and check the Template option. In the template dialog, select your
+        resolution. 16x is the default resolution of Minecraft, but you can go
+        higher if you want.
+      </p>
+      <h3 id="base-color">
+        <a href="#base-color" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Base Color
+      </h3>
+      <p>
+        Once the template is created, you can move to the Paint tab in
+        Blockbench. This will reveal all the tools you have to modify the
+        texture. Select the Paint Bucket tool and set the fill mode next to the
+        tool to Cube. Select a color in the color panel on the right side. Now
+        you can go over your cubes and color them in individual base colors.
+      </p>
+      <h3 id="details">
+        <a href="#details" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Details
+      </h3>
+      <p>
+        You can now start to work on the texture. If you're more comfortable
+        with texturing in your image editing program, you can now save the
+        texture by clicking on the save icon next to the texture. Then, you can
+        open it in your image editor. Any changes will appear in Blockbench as
+        soon as you save the texture. But, if you prefer to work directly on the
+        model, you can use the built-in paint tools in Blockbench.
+      </p>
+      <p>
+        There are a few tricks to use the paintbrush in Blockbench more
+        efficiently:
+      </p>
+      <ul>
+        <li>To paint larger areas, you can increase the brush size.</li>
+        <li>
+          You can paint directly in the 3D preview, or you can paint it in the
+          UV editor on the left side.
+        </li>
+        <li>
+          If you want to create a straight line, click on the beginning of the
+          line, then hold shift on the end of the line.
+        </li>
+        <li>
+          To make sure you don’t miss covered spots that might be revealed
+          through animations, you can hide cubes. Just click on the eye icon in
+          the outliner.
+        </li>
+      </ul>
+      <h2 id="animations">
+        <a href="#animations" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Animations
+      </h2>
+      <p>
+        Animations can animate the shape of your model, but they can also play
+        sounds and particle effects. In the following section, we'll take a look
+        at how to add an animation to your entity, how to create your own
+        animation in Blockbench, and finally, how to use animation controllers.
+      </p>
+      <h3 id="using-default-animations">
+        <a href="#using-default-animations" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Using Default Animations
+      </h3>
+      <p>
+        The vanilla resource pack contains generic animations that you can
+        reference in your own pack without actually copying the files. These
+        animations can be a good starting point for vanilla-like entities, but
+        of course, custom animations are a lot more powerful. You can find all
+        vanilla animations in the vanilla resource pack
+        <a
+          href="https://aka.ms/resourcepacktemplate"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >here</a
+        >.
+      </p>
+      <p>
+        In this example, we'll be using the <em>look at</em> animation. This
+        animation will rotate the “head” bone. That’s why it's important that
+        the head of the model uses the exact same name.
+      </p>
+      <p>
+        Also, the entity will need a <em>look at</em> component in its behavior
+        file. These are the looking components from the cow. You can play around
+        with the numbers if you like.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code>            <span class="token property">"minecraft:behavior.look_at_player"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token number">7</span><span class="token punctuation">,</span>
+                <span class="token property">"look_distance"</span><span class="token operator">:</span> <span class="token number">6</span><span class="token punctuation">,</span>
+                <span class="token property">"probability"</span><span class="token operator">:</span> <span class="token number">0.02</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"minecraft:behavior.random_look_around"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token number">9</span>
+            <span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        Now that the behavior is set up, we'll head to the client entity file.
+        Make sure that the format version for this file is set to 1.10.0 or
+        higher for this to work.
+      </p>
+      <p>
+        First, let’s link the animation. This is done in the animations section
+        in the description tag of the entity. The second part here
+        (<code>animation.common.look_at_target</code>) is the
+        <strong>global identifier</strong> of the animation. This name is
+        defined in the animation file and is valid anywhere in this pack or any
+        other pack. The first part (<code>look_at_target</code>) is the
+        <strong>short name</strong>. This is how we reference the animation
+        within the entity file, and it's only valid in the scope of this entity.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code>            <span class="token property">"animations"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"look_at_target"</span><span class="token operator">:</span> <span class="token string">"animation.common.look_at_target"</span>
+            <span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        Now, we need to play the animation. For simple animations that are
+        always active while the entity exists, this is as simple as listing the
+        short name in the scripts/animate array in the client entity file.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code>            <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"animate"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"look_at_target"</span><span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        If you now test the robot in-game, you'll see that it will turn its head
+        and look around.
+      </p>
+      <h3 id="creating-an-animation">
+        <a href="#creating-an-animation" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Creating an Animation
+      </h3>
+      <p>
+        In the
+        <a
+          href="https://docs.microsoft.com/en-us/minecraft/creator/documents/IntroductionToAddEntity"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >add entity guide</a
+        >, we created a small driving animation for the robot. Let’s now create
+        an animation that plays when the robot loses the ground under its feet
+        (wheel). Before creating an animation, always check if there's a way to
+        trigger it. We can easily trigger a lose-balance animation for this
+        because we can just use the MoLang query
+        <code>query.is_on_ground</code> to test when the robot no longer touches
+        the ground.
+      </p>
+      <p>
+        <img
+          alt="Animation controls in Blockbench"
+          src="https://docs.microsoft.com/en-us/minecraft/creator/documents/Media/EntityModeling/animation.png"
+        />
+      </p>
+      <p>
+        Simple animations can be created in the text editor, but for more
+        complex, keyframe-based animations, Blockbench makes this easier. Open
+        the model and switch to the <strong>Animate</strong> tab in the
+        top-right corner. Create a new animation in the
+        <strong>Animations</strong> panel on the left side and name it
+        <code>animation.robot.sway</code>. You can also choose a longer name or
+        include a namespace to ensure compatibility with other addons. But
+        please keep in mind that animation identifiers only support snake_case,
+        strings and dots, but not colons or dashes.
+      </p>
+      <p>
+        Once you have set up the animation, you can start animating. Select the
+        root bone of your entity. Move your time cursor in the timeline to 0
+        seconds and click the plus icon next to Rotation. This will create a new
+        keyframe at the new position. Now move the cursor to about 0.2 seconds.
+        Select the rotate tool and rotate the whole robot to the left slightly.
+        This will automatically generate a new keyframe. On the left side of the
+        screen, you can see the values. Rotate it to about 10 degrees.
+      </p>
+      <p>
+        Now move forward in time to about half a second and rotate the root bone
+        to the other side. Finally, move to 1 second and rotate it back to 0.
+      </p>
+      <p>
+        If you now move the cursor to the beginning and press play, you'll see a
+        short sway animation. Now that you know how to animate, you can refine
+        the animation and, for example, let the antenna swing a bit.
+      </p>
+      <p>
+        Finally, press <strong>Ctrl + S</strong> to save the model and
+        <strong>animation</strong>. Save the animation in the
+        <code>animations</code> folder of the resource pack as
+        <code>robot.animation.json</code>.
+      </p>
+      <p>
+        Now reference and play the animation in the client entity file as we've
+        done with the <em>look at</em> animation. But now we'll only play the
+        sway animation under the condition that the robot isn't on ground. This
+        will look something like this:
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code>            <span class="token property">"animations"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"look_at_target"</span><span class="token operator">:</span> <span class="token string">"animation.common.look_at_target"</span><span class="token punctuation">,</span>
+                <span class="token property">"sway"</span><span class="token operator">:</span> <span class="token string">"animation.robot.sway"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"animate"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"look_at_target"</span><span class="token punctuation">,</span>
+                    <span class="token punctuation">{</span><span class="token property">"sway"</span><span class="token operator">:</span><span class="token string">"!query.is_on_ground"</span><span class="token punctuation">}</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        If you now spawn a robot and push it down an edge, the animation will
+        play. But it will only play once.
+      </p>
+      <p>
+        The reason for that is the fact that the query in the scripts section is
+        only a blend value for the animation. It defines “how much” the
+        animation plays, not when it plays and when it doesn't. That’s why the
+        animation will start playing once <code>!query.is_on_ground</code> is
+        <code>true/1</code>, but it will never stop playing. It will just fade
+        out once the value is <code>false/0</code> again, and the next time it
+        will fade into the animation again. It won’t play from the start again.
+      </p>
+      <p>
+        We can use this behavior quite well for static or looping animations
+        that have no beginning and no end. But if we want to start the animation
+        every time the query changes, we need a different approach. This is
+        where animation controllers come in.
+      </p>
+      <h3 id="animation-controllers">
+        <a href="#animation-controllers" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Animation Controllers
+      </h3>
+      <p>
+        Animation controllers work with states. An animation controller can have
+        an unlimited number of states. Only one of these states is active at a
+        time. The controller can transition to other states through MoLang
+        expressions. Each state can play a distinct set of animations, sounds,
+        and particle effects.
+      </p>
+      <p>
+        Each time the entity is loaded by the client, for example, when joining
+        a world, the animation controller starts in an initial state. This state
+        is called <code>default</code> by default.
+      </p>
+      <p>
+        To set up the animation controller, create a new folder in the resource
+        pack called <code>animation_controllers</code>. Inside the folder,
+        create a new file called <code>robot.animation_controllers.json</code>.
+        Create an animation controller like this:
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code><span class="token punctuation">{</span>
+    <span class="token property">"format_version"</span><span class="token operator">:</span> <span class="token string">"1.10.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"animation_controllers"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"controller.animation.robot.ground"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        Now, we need to create an initial state. This state is called
+        <code>default</code> by default. The animation controller will always
+        start in this state when the entity is loaded. For example, after
+        rejoining the world.
+      </p>
+      <p>
+        The only job of this state is to transition to the swaying state once
+        the entity is no longer on the ground. We'll use a transition for this.
+        The controller will switch to that state as soon as the
+        <code>query.is_on_ground</code> query is no longer true.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code><span class="token punctuation">{</span>
+    <span class="token property">"format_version"</span><span class="token operator">:</span> <span class="token string">"1.10.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"animation_controllers"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"controller.animation.robot.ground"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"states"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"default"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token property">"transitions"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                        <span class="token punctuation">{</span><span class="token property">"swaying"</span><span class="token operator">:</span> <span class="token string">"!query.is_on_ground"</span><span class="token punctuation">}</span>
+                    <span class="token punctuation">]</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        Now, we’ll add the swaying state. This state will play the swaying
+        animation and after that, reset the controller by going back to the
+        default state. We can use the query
+        <code>query.all_animations_finished</code> to only transition after the
+        animation has played. This query will only return true once all
+        animations of the current state have finished playing. In addition, we
+        will test if the entity is on the ground again.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code><span class="token punctuation">{</span>
+    <span class="token property">"format_version"</span><span class="token operator">:</span> <span class="token string">"1.10.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"animation_controllers"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"controller.animation.robot.ground"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"states"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"default"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token property">"transitions"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                        <span class="token punctuation">{</span><span class="token property">"swaying"</span><span class="token operator">:</span> <span class="token string">"!query.is_on_ground"</span><span class="token punctuation">}</span>
+                    <span class="token punctuation">]</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token property">"swaying"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token property">"animations"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                        <span class="token string">"sway"</span>
+                    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token property">"transitions"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                        <span class="token punctuation">{</span><span class="token property">"default"</span><span class="token operator">:</span> <span class="token string">"query.all_animations_finished &amp;&amp; query.is_on_ground"</span><span class="token punctuation">}</span>
+                    <span class="token punctuation">]</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        Now we need to link the animation controller to our entity. Animation
+        controllers can be linked the same way as animations in the client
+        entity file. The controller is linked in the animations section and
+        played in scripts.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code>            <span class="token property">"animations"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"look_at_target"</span><span class="token operator">:</span> <span class="token string">"animation.common.look_at_target"</span><span class="token punctuation">,</span>
+                <span class="token property">"sway"</span><span class="token operator">:</span> <span class="token string">"animation.robot.sway"</span><span class="token punctuation">,</span>
+                <span class="token property">"ground"</span><span class="token operator">:</span> <span class="token string">"controller.animation.robot.ground"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"animate"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                    <span class="token string">"look_at_target"</span><span class="token punctuation">,</span>
+                    <span class="token string">"ground"</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <p>
+        If you test this in-game, the animation now works more than once. But,
+        depending on the length of your animation, you might notice that if the
+        robot loses the ground two times with a short interval, the second time
+        it won’t play the animation. That’s because the first animation hasn’t
+        finished yet, so the controller hasn’t been reset to the default state.
+      </p>
+      <p>
+        We'll take a look at a different solution that would solve this problem.
+        By removing the <code>all_animations_finished</code> query, we'll quit
+        the swaying state as soon as the entity lands again. If we test this
+        again, the animation will stop very abruptly.
+      </p>
+      <p>
+        To prevent this, we can use the option <code>blend_transition</code>,
+        which allows us to smoothly transition out of the animation in a set
+        time. This is one of the most important properties of animation
+        controllers and even allows us to create a simple transition between two
+        fixed poses of an entity.
+      </p>
+      <p>
+        Ultimately, which solution is best depends on the use case. In this
+        example, the animation fades out smoothly once the robot lands on the
+        ground again.
+      </p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code>                <span class="token property">"swaying"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token property">"animations"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                        <span class="token string">"sway"</span>
+                    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token property">"transitions"</span><span class="token operator">:</span><span class="token punctuation">[</span>
+                        <span class="token punctuation">{</span><span class="token property">"default"</span><span class="token operator">:</span> <span class="token string">"query.is_on_ground"</span><span class="token punctuation">}</span>
+                    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token property">"blend_transition"</span><span class="token operator">:</span><span class="token number">0.5</span>
+                <span class="token punctuation">}</span>
+</code></pre>
+      </div>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/JannisX11"
+            ><img width="24px" src="" class="contributor_avatar" />
+            JannisX11
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="blockbench-overview--tips">
+        <a href="#blockbench-overview--tips" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Blockbench Overview &amp; Tips
+      </h1>
+      <h2 id="community">
+        <a href="#community" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Community
+      </h2>
+      <h3 id="discord">
+        <a href="#discord" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Discord
+      </h3>
+      <p>
+        Join the
+        <a
+          href="https://discord.gg/blockbench/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Blockbench Discord server</a
+        >, it is the heart of the Blockbench community! You can discuss WIP
+        projects, share finished models, ask questions, collaborate, participate
+        in events, or just hang out with the community.
+      </p>
+      <h3 id="sketchfab">
+        <a href="#sketchfab" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sketchfab
+      </h3>
+      <p>
+        Sketchfab is a platform to publish, share, discover, buy and sell 3D, VR
+        and AR content. Many Blockbench artists already use it to showcase their
+        work.
+      </p>
+      <p>
+        You can upload models from Blockbench directly to Sketchfab, by going to
+        "File" &gt; "Export" &gt; "Upload to Sketchfab". Once on Sketchfab, you
+        can change lighting and effects and create renders or share your model.
+        You can also build your portfolio or embed models into your website.
+      </p>
+      <h3 id="sharing-models">
+        <a href="#sharing-models" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sharing Models
+      </h3>
+      <p>
+        You can easily share Blockbench models with others. Go to "File" &gt;
+        "Export" &gt; "Share", copy the short link and send it to someone. They
+        can click the link to view or edit the model in the web app.
+      </p>
+      <h3 id="streamer-mode">
+        <a href="#streamer-mode" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Streamer Mode
+      </h3>
+      <p>
+        If you stream Blockbench, but don't want your audience to see other
+        projects you worked on, enable Streamer Mode in the Settings ("File"
+        &gt; "Preferences" &gt; "Settings..." &gt; "General"). It will hide
+        potentially sensitive information like unreleased projects.
+      </p>
+      <p>
+        <img
+          alt="streamer Mode"
+          src="/images/wiki/guides/blockbench_guide/streamer_mode.png"
+        />
+      </p>
+      <h2 id="interface">
+        <a href="#interface" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Interface
+      </h2>
+      <p>
+        The default Blockbench interface consists of the Viewport (1, red), Left
+        Sidebar (2, blue), Right Sidebar (3, pink), Menu Bar (4, yellow), Main
+        Toolbar (5, orange), Mode Tabs (6, white) and Status Bar (7, green). The
+        sidebars contain different panels (e.g. Outliner, UV Panel...) depending
+        on the interface mode (Edit, Paint, Animate, Display).
+      </p>
+      <p>
+        <img
+          alt="Blockbench Interface"
+          src="/images/wiki/guides/blockbench_guide/blockbench_interface.png"
+        />
+      </p>
+      <h3 id="viewport">
+        <a href="#viewport" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Viewport
+      </h3>
+      <p>
+        An axis (plural axes) is a reference line in a coordinate system that
+        defines a dimension. In a 3D space there are three axes: X, Y and Z. In
+        Blockbench X represents width, Y height and Z length. The origin of the
+        coordinate system is the point of intersection between the three axes,
+        i.e. its coordinates are (0, 0, 0). The coordinates get higher in the +
+        direction (from the origin to where the arrow points) of each axis and
+        lower in the - direction (from the origin to away from where the arrow
+        points) of each axis.
+      </p>
+      <p>
+        The coordinate grid is made up of equally spaced intersecting lines
+        (starting from the axes). The different grid options can be toggled in
+        "Settings" &gt; "Grid".
+      </p>
+      <ul>
+        <li>Small Grid: single 1x1 meter pixel-accurate grid and axes</li>
+        <li>Block Grid: additional 1x1 meter squares around the small grid</li>
+        <li>Precise Block Grid: makes block grids pixel-accurate</li>
+        <li>Large Box: 3x3x3 boundaries</li>
+        <li>
+          Block Grid Size: defines how many meters the block grid contains
+        </li>
+        <li>Display Mode: grid visible in Display mode</li>
+        <li>
+          Painting Grid: grid that covers the textured parts on the model in
+          Paint Mode
+        </li>
+      </ul>
+      <p>
+        By default the spacing equals 1 pixel unit (16 units in a meter), but it
+        can be adjusted in "Settings" &gt; "Snapping" &gt; "Grid Resolution".
+      </p>
+      <p>
+        There are three main motions for navigating the Viewport (rotate, drag
+        and zoom). These controls can be adjusted in Keybindings by either
+        setting them manually or loading a keymap. Here is a list of default
+        keymaps:
+      </p>
+      <ul>
+        <li>
+          Default (Trackpad)
+          <ul>
+            <li>Rotate: Left Click</li>
+            <li>Drag: Right Click</li>
+            <li>Zoom: Shift + Left Click</li>
+          </ul>
+        </li>
+        <li>
+          Default (Mouse)
+          <ul>
+            <li>Rotate: Middle Click</li>
+            <li>Drag: Shift + Middle Click</li>
+            <li>Zoom: Ctrl + Middle Click</li>
+          </ul>
+        </li>
+        <li>
+          Blender
+          <ul>
+            <li>Rotate: Middle Click</li>
+            <li>Drag: Shift + Middle Click</li>
+            <li>Zoom: Ctrl + Middle Click</li>
+          </ul>
+        </li>
+        <li>
+          Cinema 4D
+          <ul>
+            <li>Rotate: Alt + Left Click</li>
+            <li>Drag: Alt + Middle Click</li>
+            <li>Zoom: Shift + Left Click</li>
+          </ul>
+        </li>
+        <li>
+          Maya
+          <ul>
+            <li>Rotate: Alt + Left Click</li>
+            <li>Drag: Alt + Middle Click</li>
+            <li>Zoom: Alt + Right Click</li>
+          </ul>
+        </li>
+      </ul>
+      <p>Scrolling works universally for zooming in and out in the Viewport.</p>
+      <p>
+        Transform Gizmos are controls in the Viewport used to move, resize and
+        rotate elements and groups. The Orbit Gizmo is a set of controls in the
+        bottom right of the Viewport used to rotate the camera and switch to
+        side views.
+      </p>
+      <h3 id="sidebars">
+        <a href="#sidebars" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sidebars
+      </h3>
+      <p>
+        The Sidebars contain panels depending on the interface mode. The
+        Outliner shows the components and hierarchy of the model and offers
+        actions for adding, removing, moving, parenting, locking and toggling
+        elements and groups. The rest of the panels are mode-specific and are
+        explored in detail in the section of their respective interface mode. If
+        you want to focus your attention only on the model itself, press the
+        little arrow icons (in the right and left corner of the Status Bar) to
+        toggle the Sidebars. Both Sidebars can also be quickly toggled using
+        Ctrl+B (this keybinding can be changed in the Preferences).
+      </p>
+      <h3 id="toolbars">
+        <a href="#toolbars" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Toolbars
+      </h3>
+      <p>
+        A toolbar is a customizable bar that holds a number of actions, usually
+        at the top of a panel. In order to customize a toolbar, click the three
+        dots on the right side of the last tool on the bar (use "Customize" to
+        add more tools and "Reset" to get the default set-up back). Number
+        sliders are inputs in toolbars that support many ways of input (sliding,
+        pressing arrows and using math expressions).
+      </p>
+      <h3 id="main-toolbar">
+        <a href="#main-toolbar" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Main Toolbar
+      </h3>
+      <p>
+        The Main Toolbar is the toolbar above the Viewport. It comes with a set
+        of default tools dependent on the interface mode, but can be customized,
+        like all the other toolbars. In order to customize it, click the three
+        dots on the right side of the last tool on the bar (use "Customize" to
+        add more tools and "Reset" to get the default set-up back).
+      </p>
+      <h3 id="interface-modes">
+        <a href="#interface-modes" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Interface Modes
+      </h3>
+      <p>
+        The interface modes offer a variety of tools for the different parts of
+        the creation process.
+      </p>
+      <ul>
+        <li>
+          Edit Mode: designing and positioning models and setting up their UV
+          mapping and bone structure
+        </li>
+        <li>Paint Mode: creating and editing textures</li>
+        <li>Animate Mode: animating models (in formats that allow it)</li>
+        <li>
+          Display Mode: specific to the Minecraft block formats; used for
+          defining how the model gets displayed in game (in hand, in item
+          frames, in the inventory etc,)
+        </li>
+      </ul>
+      <h3 id="status-bar">
+        <a href="#status-bar" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Status Bar
+      </h3>
+      <p>
+        The Status Bar contains sidebar toggle arrows and easily accessible
+        information about the model.
+      </p>
+      <ul>
+        <li>
+          Toggle Sidebar: left and right arrow for hiding and revealing the left
+          and right sidebar respectively
+        </li>
+        <li>
+          Format Icon: icon that tells you the format of the model (hover to
+          read)
+        </li>
+        <li>
+          Model Identifier: text that states the name of the model identifier
+          (it can be edited in "File" &gt; "Project...")
+        </li>
+        <li>Available modifier keys for the current tool, if available</li>
+        <li>Automatic warnings or errors regarding the current model</li>
+        <li>
+          FPS Indicator: number of frames per second displayed in Blockbench at
+          any given moment
+        </li>
+      </ul>
+      <h3 id="sliders">
+        <a href="#sliders" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sliders
+      </h3>
+      <p>
+        The interface contains numeric sliders in various places and for various
+        purposes, for example to adjust element transformation, to control the
+        brush size, etc. Sliders are a combo input type that supports various
+        methods of input:
+      </p>
+      <ul>
+        <li>
+          <strong>Sliding</strong>: Move your mouse cursor (or finger on touch)
+          over the number in the center. Slide to the right to increase and to
+          the left to decrease the value. Depending on input type, you can hold
+          Shift or Control to adjust the increment.
+        </li>
+        <li>
+          <strong>Arrows</strong>: Hover over the input. Two arrows pointing to
+          the right and left appear. Press those arrows to increase and decrease
+          the value.
+        </li>
+        <li>
+          <strong>Manual Input</strong>: Click the number once to activate text
+          editing. Enter a new numeric value. Press Enter of click elsewhere to
+          confirm the change.
+        </li>
+        <li>
+          <strong>Double Click</strong>: Double-click the number to reset the
+          value back to 0 or the respective default value.
+        </li>
+        <li>
+          <strong>Expressions</strong>: Click the number once to activate text
+          editing. Manual input supports math expressions using
+          <a
+            href="https://github.com/JannisX11/MolangJS"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            >MolangJS</a
+          >
+          <a
+            href="https://bedrock.dev/docs/stable/Molang"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            >syntax</a
+          >. The advantage of this is that the expression will be applied to
+          each instance separately. For example, you can enter
+          <code>math.random(-30, 30)</code> into the rotation value of your
+          selected cubes. This will randomize the rotation for all cubes, and
+          each cube will end up with a different rotation. You can prefix your
+          expression with <code>+</code>, <code>+-</code>, <code>*</code> or
+          <code>/</code> to add to, subtract from, multiply, or divide by the
+          previous value respectively. For example, typing <code>*2</code> into
+          a size input field will double the size value of all selected
+          elements. You can also use <code>val</code> or <code>n</code> in your
+          expression as a placeholder for the previous value.
+        </li>
+      </ul>
+      <h2 id="general">
+        <a href="#general" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >General
+      </h2>
+      <h3 id="terminology">
+        <a href="#terminology" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Terminology
+      </h3>
+      <p>
+        Here is a list of useful words and their definitions to easily
+        communicate what you are working on or having trouble with.
+      </p>
+      <ul>
+        <li>
+          Group: organizational structure that contains elements and other
+          groups
+        </li>
+        <li>
+          Bone: group that can be rotated (i.e. in a format that supports group
+          rotation)
+        </li>
+        <li>
+          Element: anything in the outliner that is not a group (e.g. cube,
+          locator, etc.)
+        </li>
+        <li>
+          Cube: element of the geometry (refers to all cuboids regardless of
+          dimensions, not just geometric cubes)
+        </li>
+        <li>
+          Plane: special type of cube with only 2 faces (due to one of the
+          dimensions of the cube being 0)
+        </li>
+        <li>
+          Locator: dimensionless element in the model that can be used as a
+          reference point (e.g. to position particles)
+        </li>
+      </ul>
+      <h3 id="keybindings">
+        <a href="#keybindings" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Keybindings
+      </h3>
+      <p>
+        Keybindings (keyboard shortcuts) are one of the main ways to speed up
+        your workflow. To learn them, hover over actions (the keybinding will
+        appear next to the label), open the menus or search them in
+        "Preferences" &gt; "Keybindings". If there is no keybinding for an
+        action, you can in most cases define one in "Preferences" &gt;
+        "Keybindings". Default keybindings can also be changed there.
+      </p>
+      <h3 id="selecting-elements">
+        <a href="#selecting-elements" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Selecting Elements
+      </h3>
+      <p>
+        Elements can be selected in the Viewport and Outliner by left-clicking.
+      </p>
+      <ul>
+        <li>Hold Ctrl while left-clicking to select multiple elements</li>
+        <li>Hold Shift in the Outliner to select a range of elements</li>
+        <li>Hold Shift in the Viewport to select the entire group</li>
+        <li>
+          Hold Ctrl while left-clicking on a UV island in the UV panel to select
+          elements based on their UV map
+        </li>
+        <li>Select all elements using Ctrl+A</li>
+      </ul>
+      <h3 id="screenshots">
+        <a href="#screenshots" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Screenshots
+      </h3>
+      <p>
+        Press Ctrl + P to capture a screenshot (the keybinding can be changed in
+        the Preferences). Alternatively, open the Preview menu (right click in
+        the Viewport or click the 3 dots in the top right corner of the
+        Viewport) and select "Screenshot Model". In the Preview menu, you can
+        also select one of the preset angles, or create, save and load your own
+        before taking the screenshot.
+      </p>
+      <p>
+        <img
+          alt="Angles"
+          src="/images/wiki/guides/blockbench_guide/angles.png"
+        />
+      </p>
+      <h3 id="background-image">
+        <a href="#background-image" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Background Image
+      </h3>
+      <p>
+        You can load background images into Blockbench. A background can be
+        helpful to customize the interface, to load a reference image or to be
+        used as a blueprint. Open the Preview menu (right click in the Viewport
+        or click the 3 dots in the top right corner of the Viewport) to load and
+        edit background images.
+      </p>
+      <h3 id="view-mode">
+        <a href="#view-mode" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >View Mode
+      </h3>
+      <p>
+        Press Z to switch between Textured, Solid and Wireframe Mode. The Solid
+        Mode enables you to view the shape of the model without the texture. The
+        Wireframe Mode only shows the shape outlines, allowing you to see
+        through the model and align cubes and pivot points more easily.
+      </p>
+      <h3 id="backups">
+        <a href="#backups" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Backups
+      </h3>
+      <p>
+        Losing progress is rarely a concern with Blockbench because it creates
+        automatic backups once every 10 minutes by default (you can adjust the
+        interval length in the Settings). Click "Help" &gt; "Open Backup Folder"
+        and locate the right backup file.
+      </p>
+      <h3 id="progressive-web-app">
+        <a href="#progressive-web-app" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Progressive Web App
+      </h3>
+      <p>
+        You can install Blockbench as a Progressive Web App. This is an
+        in-between of the desktop app and the web app and is particularly useful
+        on Phones and Tablets. PWAs launch in full screen and work offline! Find
+        installation instructions on the
+        <a
+          href="https://blockbench.net/downloads/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Download page</a
+        >.
+      </p>
+      <h2 id="edit-mode">
+        <a href="#edit-mode" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Edit Mode
+      </h2>
+      <h3 id="panels">
+        <a href="#panels" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Panels
+      </h3>
+      <p>
+        The UV Panel consists of the UV Editor, texture size, Full View (a
+        dialog pops up with a larger version of the UV Editor) and UV Window
+        buttons (a dialog pops up that displays all faces next to each other).
+        In the Box UV mode, there is also a UV Overlay toggle (to show/hide all
+        UV maps at once) and a Mirror UV action (to mirror the UV on the X
+        axis). The UV Editor comes with two sliders, for horizontal and vertical
+        position. In the Per-Face UV mode, there is a different tab for each
+        face's UV in the UV Editor. The UV Editor also comes with four sliders,
+        two for position and two for scale.
+      </p>
+      <p>
+        The Textures Panel contains a list of all imported textures and two
+        actions - Import Texture and Create Texture.
+      </p>
+      <p>
+        The Element Panel contains toolbars with sets of sliders for Position,
+        Size, Pivot Point and Rotation. Next to the Size sliders, there is also
+        the Inflate slider and, next to the Pivot Point sliders, there is the
+        Center Pivot action.
+      </p>
+      <h3 id="tools--actions">
+        <a href="#tools--actions" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Tools &amp; Actions
+      </h3>
+      <p>
+        <img
+          alt="Edit Main Toolbar"
+          src="/images/wiki/guides/blockbench_guide/edit_main_toolbar.png"
+        />
+      </p>
+      <p>
+        The Main Toolbar in Edit Mode offers the following tools by default:
+      </p>
+      <ul>
+        <li>Move: Translate elements and bones.</li>
+        <li>Resize: Change the size of elements.</li>
+        <li>Rotate: Rotate elements and bones.</li>
+        <li>
+          Pivot Tool: Move pivot points (centers of rotation) for cubes and
+          bones.
+        </li>
+        <li>
+          Vertex Snap: Connect two cubes by moving or scaling them for one
+          vertex (from each cube) to reach the other.
+        </li>
+      </ul>
+      <p>
+        Pressing Space or double-clicking switches between the alternative tools
+        (Move and Resize; Rotate and Pivot Tool). This keybinding can be changed
+        in the Preferences.
+      </p>
+      <p>
+        Transform spaces (Global, Bone, Local) define how elements/bones and
+        their pivot points are going to be translated depending on their
+        absolute and relative position and rotation.
+      </p>
+      <h3 id="bones--parenting">
+        <a href="#bones--parenting" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Bones &amp; Parenting
+      </h3>
+      <p>
+        Parenting is the process of attaching bones to each other in a
+        hierarchical order. Child bones can be manipulated on their own, but
+        they are also forced to follow the parent bones. It is crucial for
+        posing and animation. The best bone structure is one that allows for the
+        most intuitive bone manipulation (e.g. if the torso moves, the arms
+        should follow). Parenting should be done outward, from proximal bones
+        (closer to the center of the body) to distal bones (away from the body).
+        Along with parenting, setting the pivot points correctly is the most
+        important part of creating the bone structure. Posing and animating can
+        also be done outward (as seen in the image below marked with numbers
+        1-4). For a cleaner workflow, bones should have a consistent naming
+        convention.
+      </p>
+      <p>
+        <img
+          alt="Parenting"
+          src="/images/wiki/guides/blockbench_guide/parenting.png"
+        />
+      </p>
+      <h3 id="pivot-points">
+        <a href="#pivot-points" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Pivot Points
+      </h3>
+      <p>
+        A pivot point is the center of rotation of a bone. It should not be
+        placed randomly (left-most example in the image below) because that can
+        lead to issues with animation and/or later edits of the model. The
+        center of rotation is usually not supposed to be at the center of
+        geometry (middle example in the image below). As a general rule, the
+        pivot point should be at the center of the joint (point of attachment
+        between two bones; right-most example in the image below).
+      </p>
+      <p>
+        <img
+          alt="Pivot Points"
+          src="/images/wiki/guides/blockbench_guide/pivot_points.png"
+        />
+      </p>
+      <p>
+        The pivot point can be set in the viewport using the Pivot Tool (found
+        in the Main Toolbar) or in the sidebar using sliders (found in the
+        Element panel). The pivot point can also be centered to the selection
+        using the button next to the Pivot Point sliders.
+      </p>
+      <p>
+        <img
+          alt="Pivot Tool"
+          src="/images/wiki/guides/blockbench_guide/pivot_tool.png"
+        />
+      </p>
+      <h3 id="vertex-snap">
+        <a href="#vertex-snap" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Vertex Snap
+      </h3>
+      <p>
+        In order to fix cracks and slight imperfections in the position of
+        certain elements, you can use Blockbench’s Vertex Snap tool. This is a
+        method of moving vertices of one element to coincide exactly with the
+        vertices of another element. You should select "Vertex Snap" in the Main
+        Toolbar and select "Move" or "Scale" in the drop-down, depending on the
+        action you wish to perform.
+      </p>
+      <ol>
+        <li>A cube isn't positioned correctly on the model.</li>
+        <li>
+          Select the cube you are trying to move (or scale). Click on one of its
+          vertices that needs to be snapped.
+        </li>
+        <li>
+          Select the cube that you are snapping to and click on one of its
+          vertices (where you're directing vertex of the first cube). A line
+          will appear between the two vertices on hover.
+        </li>
+        <li>The cube is snapped into the correct position.</li>
+      </ol>
+      <p>
+        <img
+          alt="Vertex Snap"
+          src="/images/wiki/guides/blockbench_guide/vertex_snap.png"
+        />
+      </p>
+      <p>
+        Vertex Snap also works as a tape measure. Simply select one vertex and
+        hover over another one. You will see the distance between the two
+        vertices in the status bar.
+      </p>
+      <h3 id="inflation--deflation">
+        <a href="#inflation--deflation" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Inflation &amp; Deflation
+      </h3>
+      <p>
+        The Inflate feature enables you to scale cubes by the same number on all
+        axes (in all directions), while keeping the UV mapping intact regardless
+        of the UV mode (per-face or box UV). The Inflate slider can be found
+        next to the Size sliders in the Element panel.
+      </p>
+      <p>
+        <img
+          alt="Inflate"
+          src="/images/wiki/guides/blockbench_guide/inflate.png"
+        />
+      </p>
+      <h3 id="z-fighting">
+        <a href="#z-fighting" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Z-Fighting
+      </h3>
+      <p>
+        The Z-buffer is a technology of managing the image depth coordinates in
+        3D graphics, which helps distinguish objects that are rendered from
+        those hidden behind them. Z-fighting is an artifact that occurs due to
+        coplanar cubes (or cubes that are almost coplanar) sharing the same
+        Z-value. It results in fragments of both faces being rendered. To avoid
+        it, the cubes can be moved away from the conflict if the geometry allows
+        it (1) or one of them can be inflated/deflated (2).
+      </p>
+      <p>
+        <img
+          alt="Z-Fighting"
+          src="/images/wiki/guides/blockbench_guide/z_fighting.png"
+        />
+      </p>
+      <h3 id="transform">
+        <a href="#transform" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Transform
+      </h3>
+      <p>
+        <img
+          alt="Transform"
+          src="/images/wiki/guides/blockbench_guide/transform.png"
+        />
+      </p>
+      <p>
+        The Rotate feature enables you to turn the selected elements by 90° in
+        either direction on any axis. In per-face UV mapping, the mapping of the
+        faces stays intact after performing the rotate action. Box UV cannot
+        preserve the mapping, so it is usually better to use bones for rotating
+        a larger quantity of elements together.
+      </p>
+      <p>
+        In many cases, there are shapes on the model that need to be
+        symmetrical. Using the Flip feature, you can make those elements/bones
+        only on one side and mirror them to the other, instead of doing
+        everything manually. It works on all three axis, but X is likely to be
+        used the most. It will also rename the bone for you from left to right
+        and vice versa (e.g. the duplicate is called leg_right2, but when you
+        flip it, the name will change to leg_left).
+      </p>
+      <p>
+        Models need to be aligned on the coordinate grid (in most cases centered
+        on the X and Z axis). To do this reliably, use the Center feature for
+        the axis where you wish to center your model.
+      </p>
+      <h2 id="paint-mode">
+        <a href="#paint-mode" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Paint Mode
+      </h2>
+      <h3 id="panels-1">
+        <a href="#panels-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Panels
+      </h3>
+      <p>
+        The UV Panel contains the same features as in Edit Mode. However, in
+        Paint Mode the UV Editor can be used for painting, instead of setting UV
+        mapping.
+      </p>
+      <p>
+        The Textures Panel contains a list of all imported textures and two
+        actions - Import Texture and Create Texture.
+      </p>
+      <p>
+        The Color Panel contains the Color Bar (with the selected color and its
+        HEX value displayed, as well as Color History). Below it, there are
+        three tabs: Picker (which shows the HSV color picker), Palette (which
+        shows the palette with options to import, export, generate, sort and
+        load a palette) and Both (which shows both the HSV color picker and the
+        palette at the same time). The HSV Color Picker, aside from the hue
+        ribbon and saturation/value coordinate system, contains the HSV sliders
+        and two actions - Add To Palette and Pick Screen Color.
+      </p>
+      <h3 id="tools--actions-1">
+        <a href="#tools--actions-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Tools &amp; Actions
+      </h3>
+      <p>
+        <img
+          alt="Paint Main Toolbar"
+          src="/images/wiki/guides/blockbench_guide/paint_main_toolbar.png"
+        />
+      </p>
+      <p>Tools that can be found on the Main Toolbar in Paint Mode:</p>
+      <ul>
+        <li>
+          Paint Brush: Paint on surfaces of the model or in the UV Editor.
+        </li>
+        <li>
+          Paint Bucket: Fill (depending on the Fill Mode) faces, cubes or
+          connected or separate areas of the texture with a single color.
+        </li>
+        <li>Eraser: Replace pixels on the texture with transparency.</li>
+        <li>
+          Color Picker: Select colors from the existing parts of the texture.
+          The color picker also works on background images. That way you can
+          directly pick colors from your reference image instead of creating a
+          new palette. Holding Alt temporarily selects the color picker for the
+          duration of holding Alt (and switches back after you stop holding
+          Alt). This is a great way to optimize your painting workflow. Pressing
+          Space switches to the Color Picker.
+        </li>
+        <li>
+          Draw Shape: Draw simple shapes (full/hollow rectangle, full/hollow
+          ellipse).
+        </li>
+        <li>Gradient Tool: Create a color gradient.</li>
+        <li>
+          Copy Paste Tool: Select, copy/cut and paste portions of the texture.
+        </li>
+      </ul>
+      <p>
+        Size, opacity (lack of transparency) and softness (gradual transparency
+        around the edges) can be defined for some of the tools. Hold Shift to
+        draw a line with the Paint Brush or Eraser.
+      </p>
+      <p>Actions to speed up the texturing process:</p>
+      <ul>
+        <li>
+          Mirror Painting: Automatically copy all edits to the opposite side of
+          the model according to the X axis.
+        </li>
+        <li>
+          Lock Alpha Channel: Disable painting on transparent parts of the
+          texture.
+        </li>
+        <li>
+          Painting Grid: Toggle the pixel grid that covers the textured parts of
+          the model.
+        </li>
+      </ul>
+      <h3 id="texture-preview">
+        <a href="#texture-preview" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Texture Preview
+      </h3>
+      <p>
+        You can use an external image editor and use Blockbench for live 3D
+        preview. For regular pixel art textures, you can directly use
+        Blockbench's pixel art tools without the need for external software.
+      </p>
+      <h2 id="animate-mode">
+        <a href="#animate-mode" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Animate Mode
+      </h2>
+      <h3 id="panels-2">
+        <a href="#panels-2" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Panels
+      </h3>
+      <p>
+        The Animations Panel contains a list of all animations, a slider for the
+        length of each animation and actions for creating and importing
+        animations. You can select an animation in the list by left-clicking it,
+        open Animation Menus by right-clicking and open Animation Properties by
+        double-clicking.
+      </p>
+      <p>
+        The Keyframe Panel contains the timecode slider and interpolation
+        drop-down. It also states whether it's a rotation, position or scale
+        keyframe and contains text inputs for each axis.
+      </p>
+      <p>
+        The Bone Panel is similar to the Element Panel in Edit Mode. However, it
+        only allows for adjusting bone properties because elemenets cannot be
+        animated.
+      </p>
+      <p>
+        The Timeline gives an overview of the animation and its properties. It
+        consists of the Header and the Main View (which can be either Keyframe
+        View or Graph Editor View). The Keyframe View allows you to set and
+        display keyframes of all active channels at once. The Graph Editor View
+        allows you to adjust animation curves in a selected channel.
+      </p>
+      <h3 id="timeline-header">
+        <a href="#timeline-header" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Timeline Header
+      </h3>
+      <p>
+        <img
+          alt="Timeline Header"
+          src="/images/wiki/guides/blockbench_guide/timeline_header.png"
+        />
+      </p>
+      <p>
+        In the Timeline Header there are several actions for adjusting the
+        Timeline and previewing the animation.
+      </p>
+      <ul>
+        <li>
+          Toggle Graph Editor: switch between Keyframe View and Graph Editor
+          View
+        </li>
+        <li>
+          Filter Channels: toggle visibility of channel types and empty channels
+        </li>
+        <li>Clear Timeline: hide all unselected bones from the Timeline</li>
+        <li>
+          Animate Effects: add channels for animating particles, sounds and
+          instructions
+        </li>
+        <li>Set Marker: add/remove marker</li>
+        <li>
+          Playback Speed: slider that dictates the speed of the animation in
+          percentage
+        </li>
+        <li>
+          Previous/Next Keyframe: transport controls to jump through the
+          animation
+        </li>
+        <li>Play Animation: start/stop selected animation</li>
+      </ul>
+      <h3 id="timeline-main-view">
+        <a href="#timeline-main-view" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Timeline Main View
+      </h3>
+      <p>
+        <img
+          alt="Timeline Main View"
+          src="/images/wiki/guides/blockbench_guide/timeline_main_view.png"
+        />
+      </p>
+      <p>
+        The Time Ruler is the strip (at the top of the Main View) that
+        graphically represents time using equally spaced markings (units of
+        time). The blue square bracket on the Time Ruler indicates the end of
+        the animation.
+      </p>
+      <p>
+        The Playhead is the blue vertical line with an arrow at the top that
+        shows the current time in the animation. When scrubbing through the
+        Timeline, the Playhead snaps to valid frame times by default. Hold Ctrl
+        to disable snapping and move it smoothly.
+      </p>
+      <p>
+        The Timecode (top left corner) displays the current position of the
+        Playhead. You can type to edit the Timecode to jump to a specific time
+        in the animation.
+      </p>
+      <p>
+        Markers are indicators on the Time Ruler that can be used to denote
+        significant points in the animation and let you quickly jump to them. On
+        right click they can be colored differently or deleted.
+      </p>
+      <p>
+        On the far left, below the Timecode, there is a list of all bones and
+        their channels. Timeline Tracks are rows (below the Time Ruler) where
+        keyframes for each channel are defined (each track belongs to one
+        channel).
+      </p>
+      <p>
+        Keyframes are the start and end points of any change in the animation.
+        They are represented by diamond shapes (for linear interpolation) and
+        circles (for smooth interpolation) on the Timeline Track. A group of
+        keyframes can be selected by left-clicking and dragging. You can
+        organize your timeline by color-coding keyframes. Select a keyframe (or
+        a group of keyframes) and right click to choose a marker color.
+      </p>
+      <p>
+        The Scrollbar at the bottom of the panel lets you pan the Main View.
+      </p>
+      <h2 id="display-mode">
+        <a href="#display-mode" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Display Mode
+      </h2>
+      <h3 id="actions">
+        <a href="#actions" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Actions
+      </h3>
+      <p>
+        "Copy" and "Paste" actions allow you to transfer the values from one
+        Slot to another. The "Apply Preset" action offers a list of default
+        values for different purposes (e.g. items, blocks...). The "New Preset"
+        action is used for adding your own presets (defined values for one or
+        more slots) to the list.
+      </p>
+      <p>
+        <img
+          alt="Display Actions"
+          src="/images/wiki/guides/blockbench_guide/display_actions.png"
+        />
+      </p>
+      <h3 id="slots">
+        <a href="#slots" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Slots
+      </h3>
+      <p>
+        The rotation, translation and scale of the model can be defined
+        separately for each slot.
+      </p>
+      <ul>
+        <li>
+          Thirdperson (left and right): outside of the first-person view (i.e.
+          to other players or when switching views using F5)
+        </li>
+        <li>
+          Firstperson (left and right): what the handheld model looks like to
+          the player holding it, while in first-person view
+        </li>
+        <li>Head: when placed on the entity's head</li>
+        <li>Ground: when dropped on the ground (floating above the ground)</li>
+        <li>Frame: in an item frame</li>
+        <li>
+          GUI: in the GUI (graphical user interface; e.g. in the inventory slot)
+        </li>
+      </ul>
+      <p>
+        The GUI display offers two lighting options: Side Light and Front Light.
+        Side light is intended for models shown at an angle (like blocks in
+        vanilla Minecraft). Front light is intended for models directly facing
+        the screen/player. Make sure to use the correct one in order to avoid
+        your models standing out from the rest of the inventory.
+      </p>
+      <h3 id="reference-model">
+        <a href="#reference-model" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Reference Model
+      </h3>
+      <p>
+        There are different display references for some slots. They can be
+        switched between based on the purpose of the model. For example, the
+        Thirdperson and Head slots offer displaying the model on the player,
+        zombie, baby zombie, armor stand and small armor stand.
+      </p>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/MasterianoX"
+            ><img width="24px" src="" class="contributor_avatar" />
+            MasterianoX
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="emissive-textures-in-renders">
+        <a href="#emissive-textures-in-renders" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Emissive Textures in Renders
+      </h1>
+      <h2 id="introduction">
+        <a href="#introduction" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Introduction
+      </h2>
+      <p>
+        You've probably seen some cool renders of models that stood out to you
+        because parts of them glow. Perhaps you even wanted to try this out on
+        some of your own models. This article will show you how.
+      </p>
+      <p>
+        In order to create any sort of render, you will need to decide what
+        rendering software to use. If you want to explore the different
+        rendering softwares and view the advantages and disadvantages of each,
+        please see the
+        <a
+          href="https://www.blockbench.net/wiki/guides/model-rendering"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Rendering Models</a
+        >
+        guide, as this guide won’t go in-depth about general rendering.
+      </p>
+      <p>
+        This guide will provide in-depth steps for the two most popular
+        softwares,
+        <a
+          href="https://www.blender.org/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Blender</a
+        >
+        and
+        <a
+          href="https://sketchfab.com/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Sketchfab</a
+        >, but there may be overlap when creating emissive textures with other
+        softwares too. The required steps will be explained in detail for each
+        software, which you can access by either scrolling down or navigating
+        through the table of contents located at the right of the page. As well
+        as explaining the required steps, this guide has an example you can
+        follow along with to help visualize the process. We’ll be creating a
+        render of a desk lamp in both Blender and Sketchfab.
+      </p>
+      <p>
+        Please note that the methods recommended in the article are not the only
+        ways to achieve emissive textures in renders, but rather are supposed to
+        provide general insight on how you can go about achieving them. You are
+        encouraged to experiment and find the best workflow for you.
+      </p>
+      <p>For this example we will use the following desk lamp model.</p>
+      <p>
+        <img
+          alt="Base lamp model"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-base-model.png"
+        />
+      </p>
+      <h2 id="blender">
+        <a href="#blender" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Blender
+      </h2>
+      <h3 id="1-making-the-emissive-texture">
+        <a
+          href="#1-making-the-emissive-texture"
+          aria-hidden="true"
+          tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >1. Making the emissive texture
+      </h3>
+      <p>
+        In Blender, you can change the properties of textures through nodes in
+        the shading tab. Unlike Sketchfab, Blender requires users to create a
+        separate texture for the emissive elements and the elements that aren’t,
+        since we are intended to edit the properties of each texture as a whole.
+        If you would like to make multiple parts emit with a different strength
+        for each, you need to make a separate texture for every object you want
+        to have a different emission strength.
+      </p>
+      <p>
+        <img
+          alt="Model in Blockbench"
+          src="/images/wiki/guides/emissive-textures-renders/blender-model-in-bb.png"
+        />
+      </p>
+      <h3 id="2-exporting-into-blender">
+        <a href="#2-exporting-into-blender" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >2. Exporting into Blender
+      </h3>
+      <p>
+        The easiest way to get your model, textures and animations into Blender
+        is by exporting the model as a .gltf file via File &gt; Export &gt;
+        Export glTF model. To import the exported gITF into Blender, select File
+        &gt; Import &gt; gITF 2.0 and then select your file. Your model will
+        appear gray; to see your textures, make sure you enable viewport shading
+        in the top right.
+      </p>
+      <p>
+        <img
+          alt="Blender import option"
+          src="/images/wiki/guides/emissive-textures-renders/blender-import.png"
+        />
+      </p>
+      <p>
+        <img
+          alt="Blender viewport shading"
+          src="/images/wiki/guides/emissive-textures-renders/blender-shading.png"
+        />
+      </p>
+      <h3 id="3-configuring">
+        <a href="#3-configuring" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >3. Configuring
+      </h3>
+      <p>
+        For this example we will enable Cycles instead of EEVEE<sub>1</sub>
+        since it has light path tracing. If you want to know more about the
+        differences between EEVEE and Cycles, check out the
+        <a
+          href="https://docs.blender.org/manual/en/latest/render/eevee/introduction.html"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Blender Wiki</a
+        >.
+      </p>
+      <p>
+        Navigate to the shading tab<sub>2</sub> and click the object you want to
+        be emissive. Nodes should appear at the bottom (if they don’t, make sure
+        the “Use Nodes” toggle<sub>3</sub> is enabled). Next, drag the color
+        output of the base color node to the emission input on the
+        PrincipledBSDF node, which will make the object glow! If needed, adjust
+        the emission strength you want accordingly, which you can find under the
+        emission input.
+      </p>
+      <p>
+        <img
+          alt="Handling nodes"
+          src="/images/wiki/guides/emissive-textures-renders/blender-nodes.png"
+        />
+      </p>
+      <p>
+        When you are finished, position the camera how you’d like and hit F12 to
+        render your model, and download the final result.
+      </p>
+      <p>
+        <img
+          alt="Final result"
+          src="/images/wiki/guides/emissive-textures-renders/blender-final.png"
+        />
+      </p>
+      <h2 id="sketchfab">
+        <a href="#sketchfab" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sketchfab
+      </h2>
+      <h3 id="1-making-the-emissive-texture-1">
+        <a
+          href="#1-making-the-emissive-texture-1"
+          aria-hidden="true"
+          tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >1. Making the emissive texture
+      </h3>
+      <p>
+        In order for Sketchfab to know what parts need to glow, you need to make
+        something called an emissive texture. This texture will tell Sketchfab
+        what parts it needs to consider emissive, and what parts it should not.
+      </p>
+      <p>
+        To make an emissive texture, start by duplicating your texture. We will
+        make changes to this new texture while leaving the main texture
+        undisturbed. To distinguish between the two, it is recommended to rename
+        the emissive texture to something else (for example, you can append
+        <code>-emissive</code> to the name of the texture).
+      </p>
+      <p>
+        Important: Before duplicating, make sure the dimensions of the textures
+        are a power of 2. It will not work correctly otherwise! (If they are
+        not, you can resize the texture by right clicking it and selecting
+        <code>Resize</code>, and creating a new template texture to make sure
+        the UVs are fine.)
+      </p>
+      <p>
+        <img
+          alt="Duplicate textures"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-duplicate-texture.png"
+        />
+      </p>
+      <p>
+        In order to visually see the changes we make to the texture on the
+        model, we need to tell Blockbench to apply the texture to the model, as
+        currently it's still applying the main one. To do this, select your
+        whole model using <code>Ctrl + A</code>, and right click the cubes in
+        the outliner. Then, select
+        <code>Texture &gt; [Your Emissive Texture Name]</code>, as shown in the
+        screenshot. Now, all changes we make to the emissive texture will be
+        reflected visually on our model.
+      </p>
+      <p>
+        <img
+          alt="Apply emissive texture to model"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-apply-emissive-texture.png"
+        />
+      </p>
+      <p>
+        Our emissive texture is the exact same as our regular texture (which is
+        why we duplicated our original texture), but will only highlight the
+        parts we want emissive. There are many ways to go about doing this; this
+        guide covers the built-in and usually preferred way of making an
+        emissive texture.
+      </p>
+      <p>
+        To start, we need to tell Blockbench that our duplicated texture needs
+        to be emissive. To do this, simply right click the duplicated texture
+        and set the <code>Render Mode</code> to <code>Emissive</code>.
+      </p>
+      <p>
+        <img
+          alt="Set the render mode to emissive"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-render-mode.png"
+        />
+      </p>
+      <p>
+        Next, we need to mark the elements we want to make emissive. To do this,
+        select the eraser tool at the top toolbar, lower the opacity anywhere to
+        around 1-247 (the higher it is, the stronger you will see the emissive
+        effect in Blockbench), and erase the pixels you want emissive. This will
+        cause the pixels to light up. It's extremely important you lower down
+        the opacity of the eraser, or else you'll be undesirably completely
+        erasing the emissive pixels!
+      </p>
+      <p>
+        <img
+          alt="Eraser settings"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-eraser.png"
+        />
+      </p>
+      <p>
+        TIP: In order to better see your changes to the emissive texture, lower
+        down the brightness of Blockbench's preview in
+        <code>File &gt; Preferences &gt; Settings</code>.
+      </p>
+      <p>
+        If you've done everything correctly, you should see something like this
+        - the parts we want emissive should be brighter than the rest of the
+        model:
+      </p>
+      <p>
+        <img
+          alt="In-Blockbench emissive texture"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-bb-emissive.png"
+        />
+      </p>
+      <p>
+        Lastly, to export the emissive texture, right click the texture and
+        select
+        <code>Export Emission Map</code>. Keep the settings as default,
+        <em>but</em> make sure to check the <code>Flip Y-Axis</code> checkbox
+        since Sketchfab automatically does this with our regular texture.
+      </p>
+      <p>
+        <img
+          alt="Export emission map"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-export-emission.png"
+        />
+        <img
+          alt="Emission settings"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-emission-settings.png"
+        />
+      </p>
+      <h3 id="2-exporting-to-sketchfab">
+        <a href="#2-exporting-to-sketchfab" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >2. Exporting to Sketchfab
+      </h3>
+      <p>
+        Currently, our model still has the emissive texture applied to it. To
+        make the model apply the original texture we made, we need to do the
+        same thing as before: press <code>Ctrl + A</code> to select the whole
+        model, right click the cubes, and click
+        <code>Texture &gt; [Original Texture Name]</code>. The model should look
+        like what it was before without the emissive parts being brighter than
+        the rest of the model.
+      </p>
+      <p>
+        <img
+          alt="Apply back default texture"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-apply-default.png"
+        />
+      </p>
+      <p>
+        We can now export our model to Sketchfab. Luckily, Blockbench provides a
+        quick way to do so. Simply go to
+        <code>File &gt; Export &gt; Upload to Sketchfab</code>, fill out the
+        required information, and then press <code>Confirm</code>. Doing this
+        should show a prompt which allows you to view your model on Sketchfab.
+      </p>
+      <p>
+        <img
+          alt="Export to Sketchfab"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-export.png"
+        />
+      </p>
+      <p>
+        Upon clicking this prompt, we are redirected to the Sketchfab website
+        where we can start rendering our model. Since we are concerned about the
+        emissive textures specifically, that's what we will be primarily
+        focusing on.
+      </p>
+      <h3 id="3-configuring-1">
+        <a href="#3-configuring-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >3. Configuring
+      </h3>
+      <p>Currently, you should have a screen similar to this:</p>
+      <p>
+        <img
+          alt="Model on Sketchfab"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-model-uploaded.png"
+        />
+      </p>
+      <p>
+        To get started with rendering your model, press the blue
+        <code>Edit 3D Settings</code> button at the top right of the screen.
+        Here, we'll be met with a bunch of panels accompanied with our 3D model,
+        all of which are rendering settings and options that you can configure.
+        For now we'll bypass the other rendering options and get straight to
+        using our emissive texture.
+      </p>
+      <p>
+        Everything regarding emissive textures is located in the
+        <code>Materials</code> tab, as marked in the image. This tab not only
+        allows us to configure our emissive texture, but also stuff like
+        opacity. Each one of the collapsible categories are different types of
+        settings we can configure for our model. For now, scroll down until you
+        find the <code>Emission</code> category:
+      </p>
+      <p>
+        <img
+          alt="Location of emissive tab"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-emissive-feature.png"
+        />
+      </p>
+      <p>
+        Next, we'll need to upload our emissive texture which is saved on our
+        computer. To do this, click the color picker, select the
+        <code>Texture</code> panel, and click <code>Manage Textures</code>.
+      </p>
+      <p>
+        <img
+          alt="Manage textures"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-manage-textures.png"
+        />
+      </p>
+      <p>
+        Once you find yourself in this menu, click the blue
+        <code>Import Texture</code> button and import your texture. And ta-da,
+        we have ourselves a working emissive texture!
+      </p>
+      <p>
+        <img
+          alt="Our model with an emissive texture + bloom"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-bloom.png"
+        />
+      </p>
+      <p>
+        From here, feel free to mess around with any of the other settings
+        provided to you to touch up and finalize your render. For example, you
+        may consider changing the background image, adding bloom, or maybe
+        adding some drop shadows. For example, the image above is the emissive
+        texture applied with bloom.
+      </p>
+      <p>
+        It's also important to mention that Sketchfab gives us easy ways to
+        manipulate the way the emissive texture applies to the model. For
+        example, the default render mode is "trilinear", but we can change it to
+        "nearest" as well.
+      </p>
+      <p>
+        <img
+          alt="Different rendering settings"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-nearest.png"
+        />
+      </p>
+      <p>And here's our final result!</p>
+      <p>
+        <img
+          alt="Sketchfab final result"
+          src="/images/wiki/guides/emissive-textures-renders/sketchfab-finished.png"
+        />
+      </p>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/SirJain0"
+            ><img width="24px" src="" class="contributor_avatar" />
+            SirJain0
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/Incernion"
+            ><img width="24px" src="" class="contributor_avatar" />
+            Incernion
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="3d-export">
+        <a href="#3d-export" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >3D Export
+      </h1>
+      <h2 id="introduction">
+        <a href="#introduction" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Introduction
+      </h2>
+      <p>
+        You have created a model in Blockbench, and now you want to use it
+        outside of the program? Blockbench comes with several 3D export formats
+        that are compatible with external apps. So whether you want to create a
+        render of your model, use it in your own Unity, Unreal, or Godot game,
+        or even 3D print it, chances are there is a format for you!
+      </p>
+      <p>
+        All export formats are available from the menu under File &gt; Export.
+        But there are differences between the formats. Each one has its unique
+        advantages and disadvantages, so you will need to find the format that
+        works best for your use-case.
+      </p>
+      <p>
+        This article will go over the common export formats, help you find the
+        right one for you, and also explain how you can import your models into
+        some common programs.
+      </p>
+      <p>
+        For guides on how to export your models to specialized formats, such as
+        3D models for individual games like Minecraft, check out the
+        <a
+          href="https://www.blockbench.net/quickstart/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Quickstart Guide</a
+        >
+        instead.
+      </p>
+      <h2 id="recommended-formats-by-use-case">
+        <a
+          href="#recommended-formats-by-use-case"
+          aria-hidden="true"
+          tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Recommended Formats by Use-Case
+      </h2>
+      <p>There is usually an ideal format for each application:</p>
+      <table>
+        <tbody>
+          <tr>
+            <td>Blender (for modeling)</td>
+            <td>DAE</td>
+          </tr>
+          <tr>
+            <td>Blender (for rendering)</td>
+            <td>glTF</td>
+          </tr>
+          <tr>
+            <td>Unity game</td>
+            <td>FBX, DAE</td>
+          </tr>
+          <tr>
+            <td>Unreal Engine game</td>
+            <td>FBX</td>
+          </tr>
+          <tr>
+            <td>Godot game</td>
+            <td>glTF</td>
+          </tr>
+          <tr>
+            <td>Sketchfab</td>
+            <td>glTF (File &gt; Export &gt; Upload to Sketchfab)</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2 id="3d-formats">
+        <a href="#3d-formats" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >3D Formats
+      </h2>
+      <h3 id="obj">
+        <a href="#obj" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >OBJ
+      </h3>
+      <p>
+        OBJ might be the most widely supported 3D model format. However, as much
+        as it is supported, it is also extremely limited. If you are looking for
+        any kind of hierarchy or animation support, this is not the format for
+        you.
+      </p>
+      <h4 id="advantages">
+        <a href="#advantages" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Advantages
+      </h4>
+      <ul>
+        <li>Almost unanimous support</li>
+        <li>Simple to manually edit</li>
+      </ul>
+      <h4 id="disadvantages">
+        <a href="#disadvantages" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Disadvantages
+      </h4>
+      <ul>
+        <li>No hierarchy</li>
+        <li>No animations</li>
+        <li>Limited material options</li>
+      </ul>
+      <h3 id="gltf--glb">
+        <a href="#gltf--glb" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >glTF / glb
+      </h3>
+      <p>
+        glTF, or its binary-encoded counterpart glb, is a modern and widely
+        adopted standard for 3D export. However, as great as it works for 3D
+        export, there are some disadvantages when using it to exchange files
+        between different 3D editors.
+      </p>
+      <h4 id="advantages-1">
+        <a href="#advantages-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Advantages
+      </h4>
+      <ul>
+        <li>Wide support</li>
+        <li>Great support for hierarchy and animations</li>
+        <li>Good support for materials, including pixel-perfect filtering</li>
+        <li>Embedded textures</li>
+      </ul>
+      <h4 id="disadvantages-1">
+        <a href="#disadvantages-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Disadvantages
+      </h4>
+      <ul>
+        <li>
+          Not optimized for further editing. Quads get converted into tris,
+          vertices are no longer shared between different faces
+        </li>
+        <li>No native support in Unreal Engine and Unity.</li>
+      </ul>
+      <h3 id="fbx">
+        <a href="#fbx" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >FBX
+      </h3>
+      <p>
+        FBX is a proprietary 3D format by Autodesk. It is widely used for 3D
+        games and movies. However the closed-source nature of the format makes
+        it difficult to support for open-source applications.
+      </p>
+      <h4 id="advantages-2">
+        <a href="#advantages-2" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Advantages
+      </h4>
+      <ul>
+        <li>Support in Unity and Unreal Engine</li>
+        <li>Support for all important features</li>
+        <li>Embedded textures</li>
+      </ul>
+      <h4 id="disadvantages-2">
+        <a href="#disadvantages-2" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Disadvantages
+      </h4>
+      <ul>
+        <li>
+          Not compatible with Blender, since Blender can only import binary FBX
+          and Blockbench can only export ASCII FBX
+        </li>
+      </ul>
+      <h3 id="dae-collada">
+        <a href="#dae-collada" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >DAE (Collada)
+      </h3>
+      <p>
+        Collada is an open-source 3D format that is intended for exchanging
+        files between different 3D programs. It supports hierarchy and
+        animations.
+      </p>
+      <h4 id="advantages-3">
+        <a href="#advantages-3" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Advantages
+      </h4>
+      <ul>
+        <li>Support for all important features</li>
+        <li>Compatible with Blender, Unity, and many other programs</li>
+      </ul>
+      <h4 id="disadvantages-3">
+        <a href="#disadvantages-3" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Disadvantages
+      </h4>
+      <ul>
+        <li>More limited material options when compared to glTF</li>
+      </ul>
+      <h2 id="import-guides">
+        <a href="#import-guides" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Import Guides
+      </h2>
+      <p>
+        After exporting, getting the model into your target application is
+        usually trivial. But it might need a few tweaks to render correctly.
+        Unless you are using glTF with a compatible program, chances are your
+        texture will look completely blurry, and transparency may not work. Here
+        is a guide for how to fix this in some of the most common applications.
+      </p>
+      <h3 id="blender">
+        <a href="#blender" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Blender
+      </h3>
+      <ul>
+        <li>Import your model via File &gt; Import</li>
+        <li>
+          Switch to the Material Preview option using the Viewport Shading
+          option in the top right of the viewport, so that you can see your
+          texture
+        </li>
+        <li>
+          Make sure your object is selected and switch to the Material
+          Properties tab in the properties panel in the bottom right of the
+          screen.
+        </li>
+        <li>
+          Under Surface, press the Arrow button next to Base Color to unfold the
+          options, and set the second option from Linear to Closest.
+        </li>
+        <li>Scroll down and set Roughness all the way to 1.000</li>
+        <li>
+          Scroll down to Settings and set Blend Mode to Alpha Clip. Or, if your
+          texture has translucent (half transparent) parts, set it to Alpha
+          Blend.
+        </li>
+        <li>
+          Here you can also enable or disable Backface Culling based on your
+          preference. If enabled, you won’t be able to see the backside of your
+          faces.
+        </li>
+      </ul>
+      <h3 id="unity">
+        <a href="#unity" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Unity
+      </h3>
+      <ul>
+        <li>
+          Drag and drop your model into your preferred folder in the Unity file
+          browser.
+        </li>
+        <li>
+          When loaded from some file types, all the geometry, materials, and
+          textures are baked into one prefab, so you can't change them. To fix
+          this, locate and expand the model in your project browser. Right click
+          the texture and click Extract From Prefab. Do this for all your
+          textures and materials.
+        </li>
+        <li>Next, select the material and set the Rendering Mode to Cutout</li>
+        <li>
+          Now, select the texture, set Filter Mode to Point (no filter) and at
+          the bottom set Format to RGBA 32 bit.
+        </li>
+        <li>Don't forget to press Apply!</li>
+      </ul>
+      <p>
+        <img
+          alt="Configuring material options in Unity"
+          src="/images/wiki/guides/export_formats/unity_material.png"
+        />
+      </p>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/JannisX11"
+            ><img width="24px" src="" class="contributor_avatar" />
+            JannisX11
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="particles-and-sounds-in-minecraft-bedrock-edition">
+        <a
+          href="#particles-and-sounds-in-minecraft-bedrock-edition"
+          aria-hidden="true"
+          tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Particles and Sounds in Minecraft: Bedrock Edition
+      </h1>
+      <p>
+        Blockbench allows users to add particle effects and sounds to
+        animations, preview them, and export them to Minecraft: Bedrock Edition.
+        This guide will teach you how to do just that.
+      </p>
+      <h2 id="adding-effect-keyframes">
+        <a href="#adding-effect-keyframes" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Adding Effect Keyframes
+      </h2>
+      <p>
+        Sounds and particle effects are cued by keyframes. To enable the effect
+        animator, press the "Animate Effects" button above the timeline. In the
+        effects animator, you can add various types of keyframes
+      </p>
+      <ul>
+        <li>Particle keyframes play particle effects</li>
+        <li>Sound keyframes play sound effects</li>
+        <li>
+          Instruction keyframes allow you to run arbitracy MoLang expressions on
+          the entity at any time during the animation. This can be used to
+          modify variables in order to switch textures or change other rendering
+          properties.
+        </li>
+      </ul>
+      <p>
+        <img
+          alt="Effect animator in Blockbench"
+          src="/images/wiki/guides/effect-animator.png"
+        />
+      </p>
+      <h2 id="previewing-effects">
+        <a href="#previewing-effects" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Previewing Effects
+      </h2>
+      <p>
+        Once you have added a keyframe, use the "Select Keyframe File" button in
+        the keyframe panel to select a file for the preview. For sound effects,
+        this must be an .ogg audio file. For particle files, it must be a .json
+        particle file. Once loaded, the effects will preview inside Blockbench.
+      </p>
+      <p>
+        For particle effects, you can also select a locator from your model in
+        the keyframe panel. The particle effect will be attached to that
+        specific locator, even if the position of the locator animates. For
+        particle effects, you can also define a script. This script will run
+        when the particle effect is created. Note that in-game the query
+        namespace relates to the entity while the variable namespace exclusively
+        references variables on the particle emitter.
+      </p>
+      <p>
+        Particle effects will automatically reload once you edit the particle
+        file. If you want to reload a sound effect, or you are using the web
+        version, simply select the file again to reload it.
+      </p>
+      <h2 id="using-effects-in-game">
+        <a href="#using-effects-in-game" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Using Effects In-Game
+      </h2>
+      <p>In order to use effects in-game, some extra steps are required:</p>
+      <h3 id="effect-identifiers">
+        <a href="#effect-identifiers" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Effect Identifiers
+      </h3>
+      <p>
+        The effect identifier is used to reference a particle effect or sound
+        somewhere in your resource pack
+      </p>
+      <ul>
+        <li>
+          <p>
+            For particle effects, the identifier is the one specified in the
+            particle file or in Snowstorm. The particle effect will work as long
+            as the particle file is in the <code>particles</code> folder of the
+            resource pack, or in one if it's sub-folders.
+          </p>
+        </li>
+        <li>
+          <p>
+            For sound effects, the identifier is defined in the file
+            <code>sound_definitions.json</code> that should be placed inside the
+            sounds folder of your resource pack. This file defined all custom
+            sounds in your pack. Each sound links to one or multiple .ogg files
+            in the resource pack. More info on defining sounds can be found
+            here:
+            <a
+              href="https://wiki.bedrock.dev/concepts/sounds.html"
+              rel="nofollow noopener noreferrer"
+              target="_blank"
+              >Sounds - Bedrock Wiki</a
+            >
+          </p>
+        </li>
+      </ul>
+      <p><code>sound_definitions.json</code></p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code><span class="token punctuation">{</span>
+    <span class="token property">"format_version"</span><span class="token operator">:</span> <span class="token string">"1.14.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"sound_definitions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"rainbow.bling"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">"category"</span><span class="token operator">:</span> <span class="token string">"ui"</span><span class="token punctuation">,</span>
+            <span class="token property">"sounds"</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token string">"sounds/rainbow/bling"</span> <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <h3 id="assigning-a-short-name">
+        <a href="#assigning-a-short-name" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Assigning a short name
+      </h3>
+      <ol>
+        <li>
+          Open the client entity file of the custom entity you are animating.
+          The client entity file can be found in the <code>entity</code> folder
+          in the resource pack.
+        </li>
+        <li>
+          Inside "description", add a new object listing the effects. For sound
+          effects, add an object called <code>"sound_effects"</code>. For
+          particle effects, add an object called
+          <code>"particle_effects"</code>.
+        </li>
+        <li>
+          Now, add your effect into this object as a key-value pair. The key is
+          the <strong>short name</strong> for the effect that we will from now
+          on use to refer to the effect inside the scope of the entity. The
+          value is the full <strong>identifier</strong> of the effect.
+        </li>
+      </ol>
+      <p><code>some_mob.entity.json</code></p>
+      <div class="nuxt-content-highlight">
+        <pre
+          class="language-json line-numbers"
+        ><code><span class="token punctuation">{</span>
+    <span class="token property">"format_version"</span><span class="token operator">:</span> <span class="token string">"1.10.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"minecraft:client_entity"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"description"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+
+            <span class="token comment">// Other information like identifier, models and textures</span>
+            <span class="token punctuation">[</span>...<span class="token punctuation">]</span>
+
+            <span class="token property">"particle_effects"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"rainbow"</span><span class="token operator">:</span> <span class="token string">"snowstorm:rainbow"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"sound_effects"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"pling"</span><span class="token operator">:</span> <span class="token string">"rainbow.pling"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+      </div>
+      <h3 id="using-the-short-name-in-blockbench">
+        <a
+          href="#using-the-short-name-in-blockbench"
+          aria-hidden="true"
+          tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Using the short name in Blockbench
+      </h3>
+      <p>
+        Now that the short name is defined, we can use it in the animation.
+        Simply enter the short name into the "Effect" input in the keyframe
+        panel in Blockbench.
+      </p>
+      <p>
+        <img
+          alt="Keyframe panel in Blockbench with short name placed into the effect input"
+          src="/images/wiki/guides/keyframe-panel.png"
+        />
+      </p>
+      <p>Now the sound or particle effect should work inside Minecraft!</p>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/JannisX11"
+            ><img width="24px" src="" class="contributor_avatar" />
+            JannisX11
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="minecraft-style-guide">
+        <a href="#minecraft-style-guide" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Minecraft Style Guide
+      </h1>
+      <p>
+        This set of guidelines covers the properties of the Minecraft art style.
+        It is intended to help you create models and textures that fit right
+        into the vanilla game and to unify the terminology for the community to
+        give more efficient and constructive feedback. Please keep in mind that
+        not all of the mentioned principles apply universally to non-vanilla art
+        styles or to art unrelated to Minecraft. If you plan to create Minecraft
+        art and aren't fully familiar with the technical aspects of it, reading
+        <a href="/wiki/guides/blockbench-overview-tips" class=""
+          >Blockbench Overview &amp; Tips</a
+        >
+        is highly recommended. It contains materials on how to properly use
+        Blockbench and take full advantage of its features.
+      </p>
+      <h2 id="modeling">
+        <a href="#modeling" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Modeling
+      </h2>
+      <h3 id="element-count">
+        <a href="#element-count" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Element Count
+      </h3>
+      <p>
+        Minecraft's art style is founded in simplicity. The overall shape of an
+        object should be defined by the model and most of the detail by the
+        texture. It should always be a goal to keep the element count as low as
+        possible while still accurately depicting the object. However,
+        simplifying shapes shouldn't go too far, to the point where they are no
+        longer recognizable.
+      </p>
+      <h3 id="shape-depiction">
+        <a href="#shape-depiction" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Shape Depiction
+      </h3>
+      <p>
+        Therefore, depicting slants and curves as stairs needs to be avoided.
+        Rotating an element to create a slant instead is preferable. Rotated
+        elements can be found in many Minecraft models, but their use needs to
+        be justified. For example, rotating elements next to each other in order
+        to form a curve does not conform with the Minecraft aesthetic.
+      </p>
+      <p>
+        <img
+          alt="Rotations"
+          src="/images/wiki/guides/minecraft_style_guide/rotations.png"
+        />
+      </p>
+      <p>
+        A spherical or cylindrical object would be translated into a single
+        element. Examples of this principle can be found throughout the game
+        (barrel, cake, log, grindstone, pumpkin, melon, cocoa pod...).
+      </p>
+      <p>
+        <img
+          alt="Round Shapes"
+          src="/images/wiki/guides/minecraft_style_guide/round_shapes.png"
+        />
+      </p>
+      <p>
+        Minecraft models utilize planes (elements with only 2 faces) and
+        transparency, often together. Small parts of an object can be depicted
+        by a single large element with certain pixels strategically being fully
+        transparent. In the Minecraft art style, this solution is preferable to
+        using many small elements to depict the same object/parts of an object.
+      </p>
+      <p>
+        <img
+          alt="Planes"
+          src="/images/wiki/guides/minecraft_style_guide/planes.png"
+        />
+      </p>
+      <h3 id="uv-mapping">
+        <a href="#uv-mapping" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >UV Mapping
+      </h3>
+      <p>
+        The UV map defines how a texture is applied to the model. In Minecraft,
+        a pixel on the texture corresponds to a pixel on the model (1 unit of
+        scale in Blockbench). It is very important that the ratio of pixels is
+        preserved on the model as well, i.e. that the texture does not get
+        squashed or stretched.
+      </p>
+      <p>
+        <img
+          alt="UV Ratio"
+          src="/images/wiki/guides/minecraft_style_guide/uv_ratio.png"
+        />
+      </p>
+      <p>
+        In per-face UV mapping, Blockbench offers the Auto UV feature, which
+        correctly scales the mapping of a face.
+      </p>
+      <p>
+        <img
+          alt="Auto UV"
+          src="/images/wiki/guides/minecraft_style_guide/auto_uv.png"
+        />
+      </p>
+      <p>
+        In box UV mapping, the map of the elements is unwrapped automatically
+        and works for all faces by default. In the image below, you can see an
+        example of an unwrapped UV map (blue = north, yellow = south, pink =
+        west, green = east, white = top, grey = bottom). North is normally in
+        the front (e.g. that is where the face of a character or the door of a
+        closet would be).
+      </p>
+      <p>
+        <img
+          alt="Box UV"
+          src="/images/wiki/guides/minecraft_style_guide/box_uv.png"
+        />
+      </p>
+      <h3 id="mixels">
+        <a href="#mixels" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Mixels
+      </h3>
+      <p>
+        Much like pixels are picture elements (pix + el), mixels are elements of
+        mixed resolutions, be it 2D or 3D. Most low-spec art (digitally
+        restrictive art) avoids mixels altogether. Minecraft art, generally
+        speaking, does not allow mixels (with the notable exception of slightly
+        inflated elements on some models). Mixels on models are manifested as
+        elements smaller than 1px (or 1 unit of scale in Blockbench) or overly
+        inflated elements.
+      </p>
+      <p>
+        <img
+          alt="Model Mixels"
+          src="/images/wiki/guides/minecraft_style_guide/model_mixels.png"
+        />
+      </p>
+      <h3 id="size--proportions">
+        <a href="#size--proportions" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Size &amp; Proportions
+      </h3>
+      <p>
+        The dimensions of a Minecraft block are 16x16x16 pixels, which
+        represents 1m³, meaning that a single pixel is 6.25cm long. This ratio
+        should be taken into account, but it does not always apply. Small
+        objects being recognizable takes priority over being to scale (e.g. a
+        bee would have to be smaller than 1px if it were perfectly
+        proportionate).
+      </p>
+      <p>
+        Furthermore, functionality within the game's own proportions may not
+        translate directly from real life. The most important example of this is
+        the player model. It is significantly bulkier than a regular human, so
+        objects that the player interacts with should be created with this in
+        mind.
+      </p>
+      <p>
+        <img
+          alt="Human Proportions"
+          src="/images/wiki/guides/minecraft_style_guide/human_proportions.png"
+        />
+      </p>
+      <p>
+        Like with any art form, changing the proportions of certain parts of the
+        model influences the way the user interprets what is being depicted and
+        its function. For example, a large head on a small body can make the
+        character cute, while an exaggerated torso and arms indicate strength.
+      </p>
+      <p>
+        <img
+          alt="Character Proportions"
+          src="/images/wiki/guides/minecraft_style_guide/golem_proportions.png"
+        />
+      </p>
+      <h2 id="texturing">
+        <a href="#texturing" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Texturing
+      </h2>
+      <h3 id="hsv">
+        <a href="#hsv" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >HSV
+      </h3>
+      <p>
+        Hue is the color family determined by wavelength (e.g. brown falls into
+        red or orange, aquamarine falls into blue etc.). It can be thought of as
+        a point in the spectrum of the rainbow. Its range is 0°-360° (rainbow
+        wrapped in a circle).
+      </p>
+      <p>
+        Saturation is the color intensity, i.e. the presence of a given hue. The
+        higher the saturation, the stronger the hue. Its range is 0-100 (on the
+        horizontal axis).
+      </p>
+      <p>
+        Value is the brightness of the color. A higher value means a brighter
+        color. Its range is 0-100 (on the vertical axis).
+      </p>
+      <p>
+        <img
+          alt="HSV"
+          src="/images/wiki/guides/minecraft_style_guide/hsv.png"
+        />
+      </p>
+      <h3 id="color-ramps--palettes">
+        <a href="#color-ramps--palettes" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Color Ramps &amp; Palettes
+      </h3>
+      <p>
+        A color ramp is a lineup of all shades of a single color according to
+        brightness. A color palette is the set of all color ramps used in a
+        texture file. It is best to start the creation of a ramp with the
+        midtone. From there, it is advisable to only create one shadow and one
+        highlight and apply basic shading. Afterwards, more shades can be added.
+      </p>
+      <p>
+        Changing the hue, saturation and value between shades is called shifting
+        (hue shifting, saturation shifting, value shifting). It is important to
+        keep the step between shades balanced.
+      </p>
+      <p>
+        A straight ramp is a color ramp all of whose shades are only different
+        in their value (brightness). Straight ramps are very easy to create and
+        often aren’t used due to their dull look, but they can be suitable for
+        some materials and colors. In the image below, the straight ramp is on
+        the left and the hue-shifted ramp is on the right.
+      </p>
+      <p>
+        <img
+          alt="Hue Shifting"
+          src="/images/wiki/guides/minecraft_style_guide/hue_shifting.png"
+        />
+      </p>
+      <h3 id="shading">
+        <a href="#shading" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Shading
+      </h3>
+      <p>
+        In pixel art and, therefore, in Minecraft art, placing pixels needs to
+        be deliberate. In order to achieve this, the use of purposefully
+        restricted palettes and a set of tools without smoothness (pencil, shape
+        tool, fill bucket and eraser) are necessary. The material properties
+        need to be clearly defined.
+      </p>
+      <p>
+        Anti-aliasing or AA is a method of manually smoothing out the transition
+        between shapes by placing differently colored pixels on the border. The
+        egg on the left contains AA, the one on the right doesn't.
+      </p>
+      <p>
+        <img
+          alt="Anti-Aliasing"
+          src="/images/wiki/guides/minecraft_style_guide/anti_aliasing.png"
+        />
+      </p>
+      <p>
+        Dithering is a method of transitioning between two pixel clusters by
+        intersecting their pixels in a certain pattern. Checkered dithering is
+        the most common type.
+      </p>
+      <p>
+        <img
+          alt="Dithering"
+          src="/images/wiki/guides/minecraft_style_guide/dithering.png"
+        />
+      </p>
+      <p>
+        Using a brush can produce a noisy texture. Noise adds no information to
+        the texture and, in the worst case, makes it unrecognizable without
+        context.
+      </p>
+      <p>
+        <img
+          alt="Noisy Texture"
+          src="/images/wiki/guides/minecraft_style_guide/noisy_texture.png"
+        />
+      </p>
+      <p>
+        There are many possible ways for shading to go in the wrong direction,
+        often by accident. Banding, in the broadest sense, is an artifact of
+        pixels that line up in a sequence from brightest to darkest, whether in
+        straight lines (a.k.a. fat lines or fat pixels), diagonal lines (a.k.a.
+        staircase banding) or in corners (a.k.a. hugging). The reason it needs
+        to be avoided is that it reveals the pixel grid, distracts the eye of
+        the viewer and the shape is misrepresented. Banding usually appears when
+        the artist tries to create anti-aliasing or has a hard time distributing
+        the shades over a surface.
+      </p>
+      <p>
+        <img
+          alt="Banding"
+          src="/images/wiki/guides/minecraft_style_guide/banding.png"
+        />
+      </p>
+      <p>
+        Pillow shading is an artifact similar to banding, where the artist
+        applies shades concentrically from darkest to brightest in an attempt to
+        somehow cover the surface.
+      </p>
+      <p>
+        <img
+          alt="Pillow Shading"
+          src="/images/wiki/guides/minecraft_style_guide/pillow_shading.png"
+        />
+      </p>
+      <p>
+        Pancake shading is an artifact of placing the highlights on one side and
+        shadows on the opposite side of a surface. It disregards the shape of
+        the surface.
+      </p>
+      <p>
+        <img
+          alt="Pancake Shading"
+          src="/images/wiki/guides/minecraft_style_guide/pancake_shading.png"
+        />
+      </p>
+      <p>
+        Unnecessary dithering comes in different forms, the most basic of which
+        is the overuse of dithering where the transition starts, covering too
+        much surface area. Other cases are when there is no need for dithering
+        at all or when it’s used inconsistently (randomly, only in some places)
+        within the texture.
+      </p>
+      <p>
+        <img
+          alt="Unnecessary Dithering"
+          src="/images/wiki/guides/minecraft_style_guide/unnecessary_dithering.png"
+        />
+      </p>
+      <p>
+        Mixels on the texture can only occur if the artist purposefully scales
+        up their texture and proceeds to draw on it. This is usually done in
+        order to add more detail. If there is no space for additional detail in
+        the 16x16 resolution, either the entire texture needs to be reevaluated
+        or the detail is not necessary. Elements of conflicting resolutions make
+        a texture seem off-balance and less appealing. It usually looks as
+        though it was scaled up or down wrong.
+      </p>
+      <p>
+        <img
+          alt="Texture Mixels"
+          src="/images/wiki/guides/minecraft_style_guide/texture_mixels.png"
+        />
+      </p>
+      <h3 id="lines--shapes">
+        <a href="#lines--shapes" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Lines &amp; Shapes
+      </h3>
+      <p>
+        Jaggies are shapes (unintentional corners) in pixel art that appear due
+        to lines/edges being unpolished or lacking anti-aliasing. Straight lines
+        need to have a consistent step so that they wouldn't look unpolished.
+        This has to do with the geometric properties of diagonals. Curves can
+        also contain jaggies, usually visible as corners or diagonal lines
+        (meant to represent round shapes).
+      </p>
+      <p>
+        <img
+          alt="Jaggies"
+          src="/images/wiki/guides/minecraft_style_guide/jaggies.png"
+        />
+      </p>
+      <h3 id="item-textures">
+        <a href="#item-textures" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Item Textures
+      </h3>
+      <p>All drawn items fit within a 16x16 grid.</p>
+      <ol>
+        <li>
+          Start by drawing the shape of the item using a midtone. Give it a
+          significantly darker outline.
+        </li>
+        <li>
+          Add a highlight and a shadow. Item textures are shaded with the light
+          source imagined as coming from the top left corner. Shade the outline
+          accordingly.
+        </li>
+        <li>Add the rest of the palette (more highlights and shadows).</li>
+        <li>
+          Add in surface properties. In this example, the item is translucent
+          and smooth. In other cases, the properties could be roughness, cracks,
+          folds, dirtiness...
+        </li>
+      </ol>
+      <p>
+        <img
+          alt="Item Creation"
+          src="/images/wiki/guides/minecraft_style_guide/item_creation.png"
+        />
+      </p>
+      <h3 id="block-textures">
+        <a href="#block-textures" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Block Textures
+      </h3>
+      <p>
+        Block textures need to look good on their own, as well as when placed
+        next to each other. Placing several blocks of the same kind next to each
+        other is called tiling. If a portion of the texture visibly repeats,
+        revealing the tiling pattern, it is called a tiling artifact and is to
+        be corrected.
+      </p>
+      <p>
+        Blockbench can be used to make the block texture directly (in Paint
+        mode) or just as a live 3D preview of a texture created in an external
+        image editor. The best way to preview tiling is by creating a wall of
+        3x3 blocks.
+      </p>
+      <p>
+        It is important to check tiling before doing too much shading. An early
+        version of the texture with two or three shades is enough. After
+        checking for tiling, you can proceed with shading, but still regularly
+        check for tiling as you shade.
+      </p>
+      <p>
+        <img
+          alt="Block Tiling"
+          src="/images/wiki/guides/minecraft_style_guide/block_tiling.png"
+        />
+      </p>
+      <h3 id="entity-textures">
+        <a href="#entity-textures" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Entity Textures
+      </h3>
+      <p>
+        Entity textures use box UV mapping and follow a special set of texturing
+        guidelines. The top and front of the entity need to be brighter than the
+        bottom and back. This applies to shading the faces individually, as well
+        as how the faces are shaded relative to each other (e.g. the top face
+        will be noticeably brighter than the bottom face).
+      </p>
+      <ol>
+        <li>
+          Generate a texture template to make the texturing process easier.
+          Blockbench automatically maps the elements too.
+        </li>
+        <li>Sketch the color distribution, add a shadow and a highlight.</li>
+        <li>Add more shades to the palette.</li>
+        <li>
+          Define the material by editing the relative position of clusters of
+          certain shades. Get rid of banding and any other shading artifacts
+          from the previous steps.
+        </li>
+      </ol>
+      <p>
+        <img
+          alt="Entity Creation"
+          src="/images/wiki/guides/minecraft_style_guide/entity_creation.png"
+        />
+      </p>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/MasterianoX"
+            ><img width="24px" src="" class="contributor_avatar" />
+            MasterianoX
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="nuxt-content">
+      <h1 id="rendering-models">
+        <a href="#rendering-models" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Rendering Models
+      </h1>
+      <p>
+        To get an image of your Blockbench model with realistic lighting, you
+        need to render it in an external program. This article will go over the
+        most popular rendering programs and explain how to create a render of
+        your model.
+      </p>
+      <p>
+        <img
+          alt="Preview VS Final Render"
+          src="/images/wiki/guides/rendering/preview-vs-render.png"
+        />
+        The difference between the Blockbench preview (left) and the final
+        render (right)
+      </p>
+      <h2 id="software-choice">
+        <a href="#software-choice" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Software choice
+      </h2>
+      <p>
+        The first step is choosing a rendering program. Usually, The higher the
+        render quality and the more options you need, the harder the program is
+        to learn.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>3D Viewer</th>
+            <th>Sketchfab</th>
+            <th>Light Tracer</th>
+            <th>Blender</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Difficulty</strong></td>
+            <td>Very Easy</td>
+            <td>Easy</td>
+            <td>Medium</td>
+            <td>Hard</td>
+          </tr>
+          <tr>
+            <td><strong>Quality</strong></td>
+            <td>Low</td>
+            <td>Medium</td>
+            <td>High</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td><strong>Features</strong></td>
+            <td>1/10</td>
+            <td>4/10</td>
+            <td>6/10</td>
+            <td>10/10</td>
+          </tr>
+          <tr>
+            <td><strong>Raytracing</strong></td>
+            <td>-</td>
+            <td>-</td>
+            <td>Yes</td>
+            <td>Yes, with Cycles</td>
+          </tr>
+          <tr>
+            <td><strong>Transparent Background</strong></td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>(Paid)</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td><strong>Platforms</strong></td>
+            <td>Windows</td>
+            <td>Web</td>
+            <td>Windows, Mac</td>
+            <td>Windows, Linux, Mac</td>
+          </tr>
+          <tr>
+            <td><strong>Price</strong></td>
+            <td>Free</td>
+            <td>Free</td>
+            <td>Freemium</td>
+            <td>Free</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="block-info">
+        Raytracing is a rendering technique where light rays, emitted from a
+        light source, bounce around the model and are reflected and occluded by
+        objects in the scene. In regular real-time renderers, shadows are
+        calculated from the object shape and blurred on the edges, and ambient
+        occlusion is faked based on the shape of the model. Compared to that,
+        raytracing produces a much more realistic and appealing result because
+        it closely simulates how light works in the real world.
+      </div>
+      <h3 id="windows-3d-viewer">
+        <a href="#windows-3d-viewer" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Windows 3D Viewer
+      </h3>
+      <p>
+        The default Windows 3D Viewer is an easy to use, but limited viewing and
+        rendering program for 3D models. You can render your model from
+        different angles and set up light sources around your model.
+      </p>
+      <h3 id="sketchfab">
+        <a href="#sketchfab" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sketchfab
+      </h3>
+      <p>
+        Sketchfab is an online platform for sharing 3D models, similar to what
+        YouTube is for videos. When uploading your model, you have a number of
+        options to configure how your model is presented, including background,
+        lighting, and rendering effects.
+      </p>
+      <p>
+        Due to the features of the 3D editor, Sketchfab is also a great option
+        to render your models.
+      </p>
+      <h3 id="light-tracer">
+        <a href="#light-tracer" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Light Tracer
+      </h3>
+      <p>
+        Light Tracer is an app that is focused on rendering. It is a big step up
+        in quality compared to Sketchfab and 3D Viewer, but is is still very
+        easy to use.
+      </p>
+      <p>
+        Light Tracer has a free browser app that has limited functionality but
+        can still produce great results. The desktop app with full featureset is
+        available as a subscription or a one-time purchase for $49 USD.
+      </p>
+      <h3 id="blender">
+        <a href="#blender" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Blender
+      </h3>
+      <p>
+        Blender is a professional 3D modeling and rendering software. It has
+        essentially unlimited options, but also comes with a steep learning
+        curve. Blender has a similar feature set to paid 3D programs, such as
+        Cinema 4D, 3ds Max, and Maya. If you have one of those programs, you can
+        use them for rendering as well.
+      </p>
+      <h2 id="how-to-render">
+        <a href="#how-to-render" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >How to render
+      </h2>
+      <p>
+        Before you import your model into your rendering program of choice, you
+        need to export it in a compatible format. The format glTF is recommended
+        for this, since it is compatible with all programs in the list, it saves
+        everything into one file, and it even supports model hierarchy and
+        animations. Export your model via <strong>File</strong> &gt;
+        <strong>Export</strong> &gt; <strong>Export as glTF</strong>.
+      </p>
+      <h3 id="windows-3d-viewer-1">
+        <a href="#windows-3d-viewer-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Windows 3D Viewer
+      </h3>
+      <p>
+        Right click the exported glTF file and select
+        <strong>Open with</strong> &gt; <strong>3D Viewer</strong>.
+      </p>
+      <p>
+        You can select a lighting preset in the sidebar. Below that, you can
+        fine-tune the parameters of each light source.
+      </p>
+      <p>
+        <img
+          alt="Windows 3D Viewer"
+          src="/images/wiki/guides/rendering/3d-viewer.png"
+        />
+      </p>
+      <p>
+        Once you are happy with your lighting and camera angle, go to
+        <strong>File</strong> &gt; <strong>Export Image</strong>. Select the
+        desired resolution and export options, and press
+        <strong>Export</strong>.
+      </p>
+      <h3 id="sketchfab-1">
+        <a href="#sketchfab-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Sketchfab
+      </h3>
+      <p>
+        Uploading a model to Sketchfab is a built-in feature of Blockbench. Go
+        to
+        <strong>File</strong> &gt; <strong>Upload to Sketchfab...</strong>, fill
+        out the model metadata and follow the instructions to get your access
+        token.
+      </p>
+      <p>
+        <img
+          alt="Sketchfab Upload Dialog in Blockbench"
+          src="/images/wiki/guides/rendering/sketchfab-upload.png"
+        />
+      </p>
+      <p>
+        Once your model is uploaded, click <strong>Edit 3D Settings</strong> to
+        access the 3D editor.
+      </p>
+      <p>
+        In the 3D editor, you can configure the lighting, background and effects
+        of your model. To learn more about lighting on Sketchfab, read
+        <a
+          href="https://sketchfab.com/blogs/community/how-to-fine-tune-your-lighting-and-shadows-on-sketchfab/?utm_source=website&amp;utm_campaign=newsfeed"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >How to Fine-tune your Lighting and Shadows on Sketchfab</a
+        >.
+      </p>
+      <p>
+        <img
+          alt="Sketchfab 3D Settings"
+          src="/images/wiki/guides/rendering/sketchfab-editor.jpeg"
+        />
+      </p>
+      <p>
+        Once you are happy with the result, one way to export your image is to
+        simply take a screenshot. Most web browsers have a built-in screenshot
+        feature. You can also take a screenshot by pressing
+        <code>Windows Key + Shift + S</code> on Windows or
+        <code>Command + Shift + 4</code> on macOS.
+      </p>
+      <p>
+        If this isn't enough, you can also use Sketchfab's
+        <a
+          href="https://labs.sketchfab.com/experiments/screenshots/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Screenshot tool</a
+        >. This allows you to specify an image resolution or export with a
+        transparent background.
+      </p>
+      <h3 id="light-tracer-1">
+        <a href="#light-tracer-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Light Tracer
+      </h3>
+      <p>
+        Open the
+        <a
+          href="https://lighttracer.org/app.html"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Light Tracer Browser App</a
+        >
+        or the desktop app if you have it, and drag your model glTF file from
+        your file browser into the program. On the dialog that pops up, press
+        <strong>Replace</strong>.
+      </p>
+      <p>
+        <img
+          alt="Light Tracer Interface"
+          src="/images/wiki/guides/rendering/light-tracer.jpeg"
+        />
+      </p>
+      <p>
+        You can position your camera using the left and right mouse button. In
+        the Scene Explorer on the left sidebar, press
+        <strong>Make floor</strong> to create a ground plane to catch shadows
+        under the model.
+      </p>
+      <p>
+        In the map editor, you can create an environment map, which is basically
+        an image that wraps around your model to control where light comes from.
+        You can adjust the rotation and intensity of the map and add additional
+        light sources.
+      </p>
+      <p>
+        In the paid version, you can also configure a back plate, a custom
+        background that differs from the environment map. Select
+        <strong>Gradient</strong> and lower the alpha value of both colors to 0
+        to get a transparent background.
+      </p>
+      <p>
+        Once you are happy with your angle and lighting, press the
+        <strong>Save render to image</strong> button that is located in the
+        center above the model. This will export your model as an image.
+      </p>
+      <h3 id="blender-1">
+        <a href="#blender-1" aria-hidden="true" tabindex="-1"
+          ><span class="icon icon-link"></span></a
+        >Blender
+      </h3>
+      <p>
+        You can download Blender from
+        <a
+          href="https://www.blender.org/download/"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >Blender.org - Download</a
+        >.
+      </p>
+      <p>
+        After opening Blender, make sure to delete the default cube by pressing
+        Delete and confirming the pop up. Now navigate to
+        <strong>File</strong> &gt; <strong>Import</strong> &gt;
+        <strong>glTF 2.0</strong>, and open your model file.
+      </p>
+      <p>
+        <img
+          alt="Blender Interface"
+          src="/images/wiki/guides/rendering/blender.png"
+        />
+      </p>
+      <p>
+        This article won't go in depth about setting up the camera and lighting
+        in Blender, but here is a great
+        <a
+          href="https://youtu.be/5UCc3Z_-ibs"
+          rel="nofollow noopener noreferrer"
+          target="_blank"
+          >tutorial video</a
+        >
+        about it.
+      </p>
+      <p>
+        Once you are happy with your lighting, press <strong>F12</strong> to
+        render your model. Go to <strong>Image</strong> &gt;
+        <strong>Save</strong> to export your render as a PNG image.
+      </p>
+    </div>
+    <div class="contributors-container">
+      <h4>Authors</h4>
+      <ul>
+        <li>
+          <a href="https://github.com/JannisX11"
+            ><img width="24px" src="" class="contributor_avatar" />
+            JannisX11
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</main>
